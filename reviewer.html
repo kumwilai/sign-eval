@@ -1,0 +1,1519 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reviewer walkthrough: the Thai human-evaluation instrument, string by string</title>
+<style>
+:root{
+  color-scheme: light dark;
+  --paper:#F1F4F6; --card:#FBFCFD; --ink:#17202A; --muted:#54626F;
+  --rule:#CFD8DF; --rule-soft:#E2E8ED; --accent:#8A5300; --mark:#F5A524;
+  --flag:#8C2F13; --flag-soft:#F6E7E1;
+  --serif: "Iowan Old Style","Palatino Linotype",Palatino,"Book Antiqua",Georgia,"Times New Roman",serif;
+  --thai: "Noto Sans Thai","IBM Plex Sans Thai","Leelawadee UI",Thonburi,"Sukhumvit Set",Tahoma,system-ui,sans-serif;
+  --mono: ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+}
+html,body{max-width:100%}
+@media (prefers-color-scheme: dark){
+  :root{
+    --paper:#12161C; --card:#1B212B; --ink:#E8EDF2; --muted:#8FA0B2;
+    --rule:#2E3846; --rule-soft:#232B37; --accent:#F5A524; --mark:#F5A524;
+    --flag:#F0A38C; --flag-soft:#2A1C17;
+  }
+}
+*{box-sizing:border-box;min-width:0}
+html{background:var(--paper);-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--paper);color:var(--ink);font-family:var(--serif);
+  font-size:17px;line-height:1.62;-webkit-font-smoothing:antialiased;overflow-wrap:break-word}
+.sheet{max-width:1120px;margin:0 auto;padding:28px 20px 72px}
+h1,h2,h3{font-weight:600;margin:0;text-wrap:balance}
+h1{font-size:clamp(1.7rem,4.4vw,2.5rem);line-height:1.14;letter-spacing:-.012em}
+h2{font-size:clamp(1.25rem,2.6vw,1.55rem);line-height:1.2;letter-spacing:-.008em}
+h3{font-size:1.06rem;line-height:1.3}
+p{margin:.6em 0}
+a{color:var(--accent);text-underline-offset:.18em}
+a:focus-visible,summary:focus-visible{outline:2px solid var(--mark);outline-offset:3px;border-radius:3px}
+a[href^="http"]{overflow-wrap:anywhere}
+code,.code{font-family:var(--mono);font-size:.86em;background:var(--rule-soft);
+  padding:.08em .34em;border-radius:4px;overflow-wrap:anywhere}
+.prose{max-width:68ch}
+.muted{color:var(--muted)}
+.small{font-size:.86rem;line-height:1.55}
+
+/* masthead ------------------------------------------------------------- */
+.standfirst{max-width:68ch;font-size:1.02rem;border-left:3px solid var(--mark);
+  padding:.2em 0 .2em 1rem;margin:0 0 1.6rem}
+.standfirst strong{font-weight:600}
+.hero{display:grid;grid-template-columns:1fr 1fr;gap:0 2rem;align-items:baseline;
+  margin:1.8rem 0 1.4rem;padding-top:1rem;border-top:3px solid var(--mark)}
+.hero .th{font-family:var(--thai);font-size:clamp(1.5rem,4vw,2.1rem);line-height:1.5;margin:0}
+.hero .en{font-size:clamp(1.1rem,2.4vw,1.35rem);line-height:1.35;margin:0;color:var(--muted)}
+.hero .cap{grid-column:1 / -1;margin:.7rem 0 0;font-size:.84rem;color:var(--muted)}
+
+/* build provenance ----------------------------------------------------- */
+.build{margin:1.6rem 0 0;padding:1rem 1.1rem;background:var(--card);
+  border:1px solid var(--rule);border-radius:10px}
+.build dl{display:grid;grid-template-columns:14rem 1fr;gap:.35rem 1.2rem;margin:.6rem 0 0}
+.build dt{font-size:.86rem;color:var(--muted)}
+.build dd{margin:0;font-family:var(--mono);font-size:.8rem;overflow-wrap:anywhere}
+
+/* contents ------------------------------------------------------------- */
+nav.toc{margin:2.4rem 0;border-top:1px solid var(--rule);border-bottom:1px solid var(--rule);
+  padding:1rem 0}
+nav.toc ol{list-style:none;margin:.4rem 0 0;padding:0;columns:2;column-gap:2.5rem}
+nav.toc li{display:flex;gap:.35rem;margin:.22em 0;break-inside:avoid;font-size:.95rem}
+nav.toc .n{flex:0 0 1.9em;color:var(--muted);font-variant-numeric:tabular-nums}
+@media (max-width:820px){nav.toc ol{columns:1}}
+
+/* facts ---------------------------------------------------------------- */
+.facts dl{display:grid;grid-template-columns:19rem 1fr;gap:0;margin:1rem 0 0}
+.facts dt{padding:.7rem 1.2rem .7rem 0;border-top:1px solid var(--rule-soft);
+  font-size:.92rem;color:var(--muted)}
+.facts dd{padding:.7rem 0;border-top:1px solid var(--rule-soft);margin:0}
+.facts dd .code{font-size:.82em}
+@media (max-width:720px){
+  .facts dl{grid-template-columns:1fr}
+  .facts dt{padding-bottom:.1rem}
+  .facts dd{border-top:0;padding-top:.15rem;padding-bottom:.9rem}
+}
+
+/* screens -------------------------------------------------------------- */
+section.screen{margin:3.2rem 0 0;padding-top:1.5rem;border-top:2px solid var(--rule)}
+section.screen > h2 .n{display:inline-block;min-width:2.1em;color:var(--mark);
+  font-variant-numeric:tabular-nums}
+.gloss{margin:.7rem 0 1.4rem;max-width:68ch;color:var(--muted);font-size:.96rem}
+.groupname{margin:1.9rem 0 .2rem;padding-bottom:.25rem}
+
+/* the interlinear rows ------------------------------------------------- */
+.pair{display:grid;grid-template-columns:1fr 1fr;gap:0 2.2rem;
+  padding:.85rem 0;border-top:1px solid var(--rule-soft)}
+.pair:first-of-type{border-top:1px solid var(--rule)}
+.pair .role{grid-column:1 / -1;margin:0 0 .4rem;font-size:.79rem;color:var(--muted);
+  letter-spacing:.01em}
+.pair .th{grid-column:1;margin:0;font-family:var(--thai);font-size:1.02rem;line-height:1.95}
+/* Thai has no inter-word spaces, so a long run is one unbreakable "word" unless the
+   browser applies dictionary line breaking. `anywhere` is the fallback: normal break
+   points are still preferred, but a run that cannot fit breaks instead of overflowing. */
+[lang="th"]{overflow-wrap:anywhere;line-break:loose}
+.pair .en{grid-column:2;margin:0;line-height:1.5}
+.pair .th .ph,.pair .en .ph{font-family:var(--mono);font-size:.82em;color:var(--accent)}
+.pair.wide .th,.pair.wide .en{grid-column:1 / -1}
+.tnote{grid-column:1 / -1;margin:.6rem 0 0;padding:.55rem .8rem;font-size:.88rem;
+  line-height:1.5;background:var(--card);border:1px solid var(--rule-soft);border-radius:8px}
+.tnote b{font-weight:600}
+.tnote.flagged{background:var(--flag-soft);border-color:var(--flag)}
+.tnote.flagged b{color:var(--flag)}
+@media (max-width:760px){
+  .pair{grid-template-columns:1fr;gap:0}
+  .pair .th,.pair .en{grid-column:1}
+  .pair .en{margin-top:.45rem;padding-left:.85rem;border-left:2px solid var(--mark)}
+  .hero{grid-template-columns:1fr}
+  .hero .en{margin-top:.5rem}
+  .build dl{grid-template-columns:1fr;gap:.1rem}
+  .build dt{margin-top:.55rem}
+}
+
+/* footer --------------------------------------------------------------- */
+footer{margin:3.6rem 0 0;padding-top:1.4rem;border-top:2px solid var(--rule);
+  font-size:.92rem;color:var(--muted)}
+footer h2{margin-bottom:.5rem}
+footer ul{max-width:68ch}
+@media print{
+  :root{--paper:#fff;--card:#fff;--ink:#000;--muted:#333;--rule:#999;--rule-soft:#ccc}
+  body{font-size:11pt}
+  .sheet{max-width:none;padding:0}
+  section.screen{break-before:page}
+  .pair,.tnote,.build{break-inside:avoid}
+  nav.toc{break-after:page}
+}
+</style>
+</head>
+<body>
+<div class="sheet">
+
+<header>
+<p class="standfirst"><strong>This page is documentation, not the study.</strong> It reproduces every
+screen and every participant-facing string of the Thai human-evaluation instrument used in this
+paper, with an English translation beside each Thai original, so that a reviewer who does not read
+Thai can check what participants were actually asked. This page collects nothing, stores nothing and
+sends nothing: it has no scripts, no forms and no network requests. The live instrument is at
+<a href="https://kumwilai.github.io/sign-eval/">https://kumwilai.github.io/sign-eval/</a>.</p>
+
+<h1>What the participants were asked</h1>
+
+<div class="hero">
+  <p class="th" lang="th">ประเมินท่ามือ</p>
+  <p class="en">Rate the signing</p>
+  <p class="cap">The instrument&rsquo;s own title, as it appears in the browser tab and as the first
+  heading a participant sees. The Thai says &ldquo;evaluate hand postures&rdquo;, not &ldquo;evaluate
+  sign language&rdquo;: the task never asks the participant to judge language content.</p>
+</div>
+
+<p class="prose">The instrument is entirely in Thai because the participants are Thai Sign Language
+users; the researcher also delivers the consent material in Thai Sign Language in person, so some
+substance reaches the participant by signing rather than by screen. Everything below is text the
+screen itself shows. Strings that the page assembles at run time are given exactly as they appear in
+the source, with the code&rsquo;s own placeholders left in place, and an English rendering with the
+placeholders filled in for a complete session.</p>
+
+<div class="build">
+  <h3>Which build these strings come from</h3>
+  <p class="small muted" style="margin:.45rem 0 0">Both source files were copied to a scratch
+  directory at the time given below and every string on this page was taken from those copies, so
+  this walkthrough is one consistent snapshot even though the sources were being edited the same day.
+  The two hashes match the source hashes recorded in the instrument&rsquo;s own
+  <span class="code">MANIFEST.txt</span>, and the built page on disk hashes to the manifest&rsquo;s
+  published page hash, so these strings are the ones in the published build.</p>
+  <dl>
+    <dt>snapshot taken</dt><dd>2026-09-08T20:10:19+07:00</dd>
+    <dt>he_markup.html (sha256)</dt><dd>b8db9213a30009ba6cb56099a84571ca815bf369859b4b960b53a124984053c7</dd>
+    <dt>he_logic.js (sha256)</dt><dd>e4e884750093acac32f07d6b8ae8d8ef1c8a1d6f2dae1329816fc6f2cb413072</dd>
+    <dt>he_style.css (sha256)</dt><dd>57588951c543706c89b186df5ec299aa1f27ea930306e68c69944b373f64a4cf</dd>
+    <dt>build id recorded in every session document</dt><dd>86a225b3e49b2b9ec61ed72f8cdfb878533b2756351d20d788e74e5ac22f46af</dd>
+    <dt>published page (sha256)</dt><dd>25c1fac7acfd22f7db5a9e50bcd45aded5866b49a4535f7378009df29c5e44d3</dd>
+  </dl>
+</div>
+</header>
+
+<nav class="toc" aria-label="Contents">
+<h2>Contents</h2>
+<ol>
+  <li><span class="n"></span><a href="#facts">Facts a reviewer needs to read the screens</a></li>
+  <li><span class="n"></span><a href="#howto">How to read the two columns</a></li>
+  <li><span class="n">1</span><a href="#s1">Welcome, participant code, test-run toggle</a></li>
+  <li><span class="n">2</span><a href="#s2">Consent: the five points</a></li>
+  <li><span class="n">3</span><a href="#s3">Seven language-background items</a></li>
+  <li><span class="n">4</span><a href="#s4">Part 1: a single-clip trial</a></li>
+  <li><span class="n">5</span><a href="#s5">The break</a></li>
+  <li><span class="n">6</span><a href="#s6">Part 2: forced choice, no tie</a></li>
+  <li><span class="n">7</span><a href="#s7">Part 3: fidelity against the reference</a></li>
+  <li><span class="n">8</span><a href="#s8">Withdrawal and its confirmation</a></li>
+  <li><span class="n">9</span><a href="#s9">The done screen and failed-upload recovery</a></li>
+  <li><span class="n"></span><a href="#errors">Error and edge-case messages</a></li>
+  <li><span class="n"></span><a href="#offpath">Strings that exist but no participant sees</a></li>
+  <li><span class="n"></span><a href="#omitted">What this page leaves out, and why</a></li>
+</ol>
+</nav>
+
+<section class="facts" id="facts">
+<h2>Facts a reviewer needs to read the screens</h2>
+<p class="prose gloss">Every number here is read from the instrument source
+(<span class="code">he_logic.js</span>, <span class="code">he_markup.html</span>) or from the stimulus
+kit&rsquo;s <span class="code">provenance.json</span>, not from a protocol document.</p>
+<dl>
+  <dt>Screens in a complete session</dt>
+  <dd>10 items &times; 5 rated conditions = <strong>50</strong> single-clip trials, plus
+  <strong>1</strong> unscored practice trial, plus <strong>10</strong> forced-choice pairs, plus
+  <strong>10</strong> reference-fidelity pairs = <strong>71 screens</strong>. The on-screen progress
+  bar counts the 70 scored screens; the practice trial is outside it.</dd>
+
+  <dt>What the participant is told a condition is</dt>
+  <dd>Nothing. Each clip is named only by an opaque blind code
+  (<span class="code">sk_001</span>&hellip;<span class="code">sk_060</span>), and the published page
+  source contains no condition label at all &mdash; only two roles, the anchor clip (practice clip and
+  fidelity reference) and the pair the forced choice compares. Codes are rejoined to conditions after
+  the fact from a blind map that stays on the researcher&rsquo;s machine. The five rated conditions are
+  GT, GOV, REF, RCX and PT; no participant and no screen ever sees those names.</dd>
+
+  <dt>Replay budget, as the constants stand</dt>
+  <dd><span class="code">MAXPLAYS_SINGLE = 3</span> and <span class="code">MAXPLAYS_PAIR = 4</span>,
+  counting the automatic first play. A single-clip screen therefore allows <strong>2 replays</strong>
+  and a pair screen <strong>3 replays</strong>; on a pair screen one replay tap restarts both clips
+  together, so the cap counts screens watched rather than video elements started. The used count is
+  recorded per trial as <span class="code">plays</span>. The welcome screen&rsquo;s own summary of the
+  budget disagrees with these constants &mdash; see the flag on screen&nbsp;1.</dd>
+
+  <dt>Active-time cap</dt>
+  <dd><span class="code">LIMIT_MS = 40*60*1000</span> &mdash; <strong>40 minutes</strong> of active
+  time. Time spent on the break screen, on the two instruction screens, and with the tab hidden is
+  credited back to the deadline, so a long rest or a phone call does not consume the session. A
+  countdown appears only inside the last five minutes
+  (<span class="code">WARN_MS = 5*60*1000</span>) and turns red under one minute. Reaching the cap
+  ends the session as complete rather than as a failure. The welcome and consent screens tell the
+  participant to expect about 20&ndash;25 minutes, which is the expected pace, not the cap.</dd>
+
+  <dt>Byte-identical control pairs</dt>
+  <dd>Three of the ten forced-choice pairs are the same file twice, so any preference on them is
+  purely side bias. They are the three items on which the two compared conditions render identically:
+  <span class="code">06April_2010_Tuesday_tagesschau-306</span>,
+  <span class="code">24October_2009_Saturday_tagesschau-4289</span> and
+  <span class="code">28October_2009_Wednesday_tagesschau-4543</span>. Independently confirmed for this
+  walkthrough by hashing the delivered MP4 files: the two blind codes for each of those three items
+  have the same sha256, and no other item does. Their placement is drawn from a fixed admissible set,
+  so a control is never the first pair and two controls are never closer than three screens apart.</dd>
+
+  <dt>A rendered condition that is never rated</dt>
+  <dd>Sign-IDD. Ten Sign-IDD clips exist in the stimulus kit and are never shown to a participant.
+  The kit records why: the authors released no PHOENIX checkpoint, so the clips come from an
+  unreproduced local reimplementation, and rating them would measure the reproduction rather than the
+  published method. The kit holds 60 rendered clips; 50 are shown.</dd>
+
+  <dt>One rated condition is a frame-rate floor anchor</dt>
+  <dd>PT is released at 12.5 fps and played at its native rate, while every other condition is 25 fps.
+  Its smoothness and clarity ratings are therefore confounded with the 80&nbsp;ms frame hold; the kit
+  records it as a floor anchor and a channel check, not as a confirmatory contrast.</dd>
+
+  <dt>Order, pacing and locking</dt>
+  <dd>Trial order is generated from a seeded generator, <span class="code">seed = 18964103 +
+  participant index</span>, so a session is reproducible from its participant number. The break comes
+  after 25 rated single trials (<span class="code">BREAK_AFTER = 25</span>). Answer buttons stay
+  locked until every clip on the screen reports that it has ended, with an
+  <span class="code">GATE_MS = 8000</span> safety unlock if a clip never reports it. Once the last
+  answer on a screen is tapped the page advances itself after
+  <span class="code">ADV_MS = 700</span>&nbsp;ms.</dd>
+
+  <dt>Participant codes</dt>
+  <dd>Assigned by the researcher, 1&ndash;99, displayed as <span class="code">P01</span>&hellip;<span
+  class="code">P99</span>. Codes from 90 up (<span class="code">TEST_FROM = 90</span>) are dry runs:
+  every row they write carries <span class="code">test:true</span> and a persistent banner marks the
+  screen, so a rehearsal cannot be mistaken for data.</dd>
+
+  <dt>Recorded per rated single-clip trial</dt>
+  <dd>Written to <span class="code">ratings/</span>:
+  <span class="code">participant</span>, <span class="code">pidx</span>,
+  <span class="code">session</span>, <span class="code">test</span>, <span class="code">item</span>,
+  <span class="code">code</span> (the blind stimulus code), <span class="code">round</span>,
+  <span class="code">order</span>, the four ratings <span class="code">natural</span>,
+  <span class="code">smooth</span>, <span class="code">clarity</span>,
+  <span class="code">connected</span>, <span class="code">interrupted</span> (the tab was backgrounded
+  during this trial), <span class="code">plays</span>, <span class="code">changes</span> (how many
+  times an answer was changed), <span class="code">rt_ms</span>, the per-scale reaction times
+  <span class="code">rt_natural_ms</span>, <span class="code">rt_smooth_ms</span>,
+  <span class="code">rt_clarity_ms</span>, <span class="code">rt_connected_ms</span>,
+  <span class="code">elapsed_ms</span> and <span class="code">at</span> (ISO timestamp). Each
+  per-scale time runs from the clip loading to that scale&rsquo;s tap, net of time the tab was hidden;
+  <span class="code">rt_ms</span> is the largest of the four, that is, the time to the last answer on
+  the screen. The practice trial writes no rating row: its answers are kept only inside the session
+  document, under <span class="code">practice</span>.</dd>
+
+  <dt>Recorded per forced-choice pair</dt>
+  <dd>Written to <span class="code">choices/</span>: <span class="code">participant</span>,
+  <span class="code">pidx</span>, <span class="code">session</span>, <span class="code">test</span>,
+  <span class="code">phase:"choice"</span>, <span class="code">item</span>,
+  <span class="code">left_code</span>, <span class="code">right_code</span>,
+  <span class="code">duel1_side</span> (which side carried the second of the two compared conditions),
+  <span class="code">choice</span> (<span class="code">"left"</span> or
+  <span class="code">"right"</span>), <span class="code">control</span> (true on the byte-identical
+  pairs), <span class="code">order</span>, <span class="code">interrupted</span>,
+  <span class="code">plays</span>, <span class="code">changes</span>, <span class="code">rt_ms</span>,
+  <span class="code">elapsed_ms</span>, <span class="code">at</span>.</dd>
+
+  <dt>Recorded per fidelity pair</dt>
+  <dd>Written to <span class="code">fidelity/</span>: <span class="code">participant</span>,
+  <span class="code">pidx</span>, <span class="code">session</span>, <span class="code">test</span>,
+  <span class="code">phase:"fidelity"</span>, <span class="code">item</span>,
+  <span class="code">code</span>, <span class="code">gt_code</span>,
+  <span class="code">gt_side</span>, <span class="code">order</span>,
+  <span class="code">fidelity</span> (the 1&ndash;5 rating), <span class="code">interrupted</span>,
+  <span class="code">plays</span>, <span class="code">changes</span>, <span class="code">rt_ms</span>,
+  <span class="code">elapsed_ms</span>, <span class="code">at</span>.</dd>
+
+  <dt>Also recorded</dt>
+  <dd>A clip that fails to decode is never rated: the screen is skipped and a row goes to
+  <span class="code">skips/</span> naming which element and which channel failed
+  (reference or candidate on a fidelity screen, left or right on a forced-choice screen). One session
+  document per session carries the consent flag and time, the seven background answers, the
+  participant-code claim, which transports the data left by, the planned and completed counts per
+  phase, the seed, the retest items, the replay caps, the practice answers, the skip list, the
+  active/break/instruction/hidden time totals, the build id, the user agent, the viewport and the
+  reduced-motion preference.</dd>
+
+  <dt>Which written design the instrument implements</dt>
+  <dd>Amendment&nbsp;4 of the protocol: five conditions fully crossed within participant, four
+  single-clip scales, a no-tie forced choice, and a fidelity phase. A reviewer comparing these screens
+  with section&nbsp;5 of the protocol body should know that the body as written still describes three
+  rating scales, a four-way German-sentence meaning choice, and a preference task with a tie option;
+  the instrument has four scales, no meaning-choice task, and no tie. Those three differences are
+  amendment changes, not translation losses.</dd>
+</dl>
+</section>
+
+<section id="howto">
+<h2>How to read the two columns</h2>
+<p class="prose">On a wide screen the Thai original is on the left and the English translation on the
+right. On a narrow screen they stack, with the English marked by an amber rule. Above each pair, a
+small line names the interface element the string belongs to &mdash; heading, lead paragraph, bullet,
+button, label, hint, counter, caption, badge, status or error &mdash; because the same words mean
+different things in a heading and on a button. An em dash in the Thai column means the screen shows
+no Thai text at that point &mdash; a digits-only counter, or an interaction that produces no
+message.</p>
+<p class="prose">Placeholders such as <span class="code">${n}</span> are the source code&rsquo;s own;
+they are left in the Thai exactly as written so a reviewer can find the string in the source, and the
+English gives the sentence with a real value substituted. Translations are literal in preference to
+fluent. Where a Thai phrase carries something an English reader would otherwise miss, or where the
+Thai is genuinely ambiguous, a note follows the pair; notes about a possible substantive mismatch
+between the screen and the written protocol are marked in a stronger colour and begin with the word
+<em>Flag</em>.</p>
+<p class="prose">One register note applies throughout. The instrument addresses the participant as
+<span lang="th" style="font-family:var(--thai)">ท่าน</span>, a formal, deferential
+&ldquo;you&rdquo; &mdash; more distant and more respectful than everyday Thai
+<span lang="th" style="font-family:var(--thai)">คุณ</span>, and closer to the tone of a printed
+notice than to speech. It is translated below as plain &ldquo;you&rdquo; everywhere, so the
+politeness of the original is flatter in English than in Thai. Thanks and apologies end with the
+paired particles <span lang="th" style="font-family:var(--thai)">ครับ/ค่ะ</span>: those are the male
+and female forms of the speaker&rsquo;s politeness particle, written together because the page cannot
+know who is speaking. English has nothing corresponding, and they are not translated.</p>
+</section>
+
+<section class="screen" id="s1">
+<h2><span class="n">1</span>Welcome, participant code, test-run toggle</h2>
+<p class="gloss">The first screen. The researcher holds the device here, enters the participant number
+they have assigned, and hands the device over. Tapping the button moves to consent; nothing is stored
+and no participant number is claimed until after the background questions, so someone who declines
+leaves no trace.</p>
+
+<div class="pair">
+  <p class="role">eyebrow above the heading</p>
+  <p class="th" lang="th">งานวิจัย · ภาษามือ</p>
+  <p class="en">Research · sign language</p>
+</div>
+<div class="pair">
+  <p class="role">heading</p>
+  <p class="th" lang="th">ประเมินท่ามือ</p>
+  <p class="en">Rate the signing</p>
+  <p class="tnote"><b>Note.</b> Literally &ldquo;evaluate hand postures&rdquo;.
+  <span lang="th" style="font-family:var(--thai)">ท่ามือ</span> is the physical hand posture or
+  gesture, not <span lang="th" style="font-family:var(--thai)">ภาษามือ</span>, sign language. The
+  title therefore promises a judgement of movement, not of language.</p>
+</div>
+<div class="pair">
+  <p class="role">lead paragraph</p>
+  <p class="th" lang="th">ใช้เวลาประมาณ 20–25 นาที ท่านจะดูภาพโครงร่างคนกำลังทำภาษามือ แล้วให้คะแนนว่าการเคลื่อนไหวดูเป็นธรรมชาติเพียงใด</p>
+  <p class="en">It takes about 20&ndash;25 minutes. You will watch outline figures of a person
+  signing, then rate how natural the movement looks.</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ภาพโครงร่างคน</span>
+  is &ldquo;an outline/frame picture of a person&rdquo; &mdash; the stick-figure skeleton rendering.
+  The Thai does not use a technical word such as &ldquo;skeleton&rdquo; or &ldquo;keypoints&rdquo;.</p>
+</div>
+<div class="pair">
+  <p class="role">card heading</p>
+  <p class="th" lang="th">ก่อนเริ่ม</p>
+  <p class="en">Before you start</p>
+</div>
+<div class="pair">
+  <p class="role">bullet 1</p>
+  <p class="th" lang="th">เป็นภาษามือเยอรมัน ท่านไม่ต้องเข้าใจความหมาย และไม่มีคำถามเรื่องความหมาย</p>
+  <p class="en">This is German Sign Language. You do not need to understand the meaning, and there are
+  no questions about meaning.</p>
+</div>
+<div class="pair">
+  <p class="role">bullet 2</p>
+  <p class="th" lang="th">ตัดสินที่ การเคลื่อนไหว ไม่ใช่ที่ลายเส้นหรือความสวยงาม</p>
+  <p class="en">Judge the movement, not the line drawing or how pretty it is.</p>
+  <p class="tnote"><b>Note.</b> &ldquo;การเคลื่อนไหว&rdquo; (the movement) is bold on screen.
+  <span lang="th" style="font-family:var(--thai)">ลายเส้น</span> means the linework or draughtsmanship
+  of a drawing; the sentence steers the participant away from rating the rendering style.</p>
+</div>
+<div class="pair">
+  <p class="role">bullet 3</p>
+  <p class="th" lang="th">ส่วนที่ 1 มี 50 คลิป คลิปละ 4 คำถาม เริ่มด้วยคลิปฝึก 1 คลิป และมีช่วงพักให้ตรงกลาง</p>
+  <p class="en">Part 1 has 50 clips, 4 questions per clip, starting with 1 practice clip, and there is
+  a break in the middle.</p>
+</div>
+<div class="pair">
+  <p class="role">bullet 4</p>
+  <p class="th" lang="th">ส่วนที่ 2 มี 10 คู่ ดูสองคลิปพร้อมกัน แล้วเลือกว่าคลิปไหนลื่นไหลกว่า</p>
+  <p class="en">Part 2 has 10 pairs. You watch two clips at the same time, then choose which clip is
+  smoother.</p>
+</div>
+<div class="pair">
+  <p class="role">bullet 5</p>
+  <p class="th" lang="th">ส่วนที่ 3 มี 10 คู่ เปรียบเทียบคลิปกับต้นแบบ</p>
+  <p class="en">Part 3 has 10 pairs, comparing a clip against the reference.</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ต้นแบบ</span> is
+  translated as &ldquo;the reference&rdquo; throughout. Its literal sense is
+  &ldquo;original&rdquo;, &ldquo;master copy&rdquo; or &ldquo;model to be copied from&rdquo;. It does
+  not say &ldquo;real human&rdquo;, &ldquo;ground truth&rdquo; or &ldquo;correct answer&rdquo;, and it
+  does not tell the participant that the reference is archive video of a human signer.</p>
+</div>
+<div class="pair">
+  <p class="role">bullet 6</p>
+  <p class="th" lang="th">คลิปจะเล่นเองเมื่อขึ้นหน้าจอ ดูซ้ำได้อีก 1 ครั้ง และให้คะแนนได้เมื่อคลิปจบ</p>
+  <p class="en">The clip plays by itself when the screen appears. You can watch it 1 more time. And
+  you can rate it once the clip has finished.</p>
+  <p class="tnote flagged"><b>Flag &mdash; this bullet understates the replay budget.</b> It says one
+  further viewing. The constants in the same build allow two replays on a single-clip screen
+  (<span class="code">MAXPLAYS_SINGLE = 3</span>, counting the automatic first play) and three on a
+  pair screen (<span class="code">MAXPLAYS_PAIR = 4</span>), and the on-screen replay counter tells
+  the participant the larger number as soon as the first play ends. The researcher&rsquo;s spoken
+  script and the amendment both say two replays in Part 1 and three in Parts 2 and 3, matching the
+  code. This bullet appears to be left over from the earlier one-replay budget, which was superseded
+  on 2026-09-08. The effect on a participant is conservative &mdash; they are told they have fewer
+  replays than the screen will actually grant &mdash; but the welcome text and the code do not
+  agree.</p>
+</div>
+<div class="pair">
+  <p class="role">bullet 7</p>
+  <p class="th" lang="th">ไม่มีคำตอบถูกผิด · หยุดเมื่อใดก็ได้</p>
+  <p class="en">There are no right or wrong answers · Stop at any time.</p>
+</div>
+
+<h3 class="groupname">The participant-code card</h3>
+<div class="pair">
+  <p class="role">card heading</p>
+  <p class="th" lang="th">หมายเลขผู้เข้าร่วม</p>
+  <p class="en">Participant number</p>
+</div>
+<div class="pair">
+  <p class="role">label for the number field</p>
+  <p class="th" lang="th">ผู้วิจัยจะให้หมายเลขประจำตัวกับท่าน (1 ถึง 99) กรุณากรอกก่อนเริ่ม เพื่อไม่ให้คำตอบของแต่ละท่านทับกัน</p>
+  <p class="en">The researcher will give you your own number (1 to 99). Please enter it before
+  starting, so that different people&rsquo;s answers do not overlap.</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ทับกัน</span> is
+  literally &ldquo;overlap&rdquo; or &ldquo;land on top of each other&rdquo;; in this context it means
+  one participant&rsquo;s rows overwriting another&rsquo;s.</p>
+</div>
+<div class="pair">
+  <p class="role">placeholder inside the number field</p>
+  <p class="th" lang="th">เช่น 7</p>
+  <p class="en">for example 7</p>
+</div>
+<div class="pair">
+  <p class="role">hint under the field, while the next free number is being looked up</p>
+  <p class="th" lang="th">กำลังหาหมายเลขถัดไป…</p>
+  <p class="en">Finding the next number&hellip;</p>
+</div>
+<div class="pair">
+  <p class="role">hint under the field, once the next free number is known</p>
+  <p class="th" lang="th">หมายเลขผู้เข้าร่วมถัดไปคือ ${n} แก้ไขได้</p>
+  <p class="en">The next participant number is <span class="ph">${n}</span>. It can be changed.
+  &mdash; With a real value: &ldquo;The next participant number is 7. It can be changed.&rdquo;</p>
+</div>
+<div class="pair">
+  <p class="role">the same hint during a test run</p>
+  <p class="th" lang="th">หมายเลขรอบทดสอบถัดไปคือ ${n} แก้ไขได้</p>
+  <p class="en">The next test-run number is <span class="ph">${n}</span>. It can be changed.</p>
+</div>
+<div class="pair">
+  <p class="role">hint shown when a requested number was already taken</p>
+  <p class="th" lang="th">หมายเลข ${n} ถูกใช้แล้ว เปลี่ยนเป็น ${alt}</p>
+  <p class="en">Number <span class="ph">${n}</span> has already been used; changed to
+  <span class="ph">${alt}</span>.</p>
+</div>
+<div class="pair">
+  <p class="role">checkbox label &mdash; the test-run toggle</p>
+  <p class="th" lang="th">รอบทดสอบ (หมายเลข 90–99 · ข้อมูลจะถูกทำเครื่องหมายว่าเป็นการทดสอบ)</p>
+  <p class="en">Test run (numbers 90&ndash;99 · the data will be marked as a test)</p>
+</div>
+<div class="pair">
+  <p class="role">banner pinned to the top of every screen once a test run starts</p>
+  <p class="th" lang="th">รอบทดสอบ · ไม่ใช่ข้อมูลจริง — TEST RUN, rows marked test:true</p>
+  <p class="en">Test run · not real data &mdash; TEST RUN, rows marked test:true</p>
+  <p class="tnote"><b>Note.</b> The second half of this banner is English in the original, addressed to
+  the researcher rather than the participant; only the first half is translated here.</p>
+</div>
+<div class="pair">
+  <p class="role">button, and its label while the page is preparing</p>
+  <p class="th" lang="th">ถัดไป</p>
+  <p class="en">Next &mdash; while preparing, the same button reads
+  <span lang="th" style="font-family:var(--thai)">กำลังเตรียม…</span>, &ldquo;Getting ready&hellip;&rdquo;</p>
+</div>
+<div class="pair">
+  <p class="role">error under the field, when the number is missing or out of range</p>
+  <p class="th" lang="th">กรุณากรอกหมายเลขผู้เข้าร่วมที่ผู้วิจัยให้ไว้ (1 ถึง 99)</p>
+  <p class="en">Please enter the participant number the researcher gave you (1 to 99).</p>
+</div>
+<div class="pair">
+  <p class="role">error, when the number and the test-run toggle disagree (two forms)</p>
+  <p class="th" lang="th">หมายเลข 90–99 เป็นรอบทดสอบ ถ้าเป็นรอบทดสอบให้ติ๊ก “รอบทดสอบ” ก่อน ถ้าเป็นผู้เข้าร่วมจริงให้ใช้หมายเลข 1–89</p>
+  <p class="en">Numbers 90&ndash;99 are test runs. If this is a test run, tick &ldquo;Test run&rdquo;
+  first. If this is a real participant, use a number from 1 to 89.</p>
+</div>
+<div class="pair">
+  <p class="role">error, second form</p>
+  <p class="th" lang="th">ติ๊ก “รอบทดสอบ” ไว้ แต่หมายเลขนี้เป็นของผู้เข้าร่วมจริง รอบทดสอบต้องใช้หมายเลข 90–99</p>
+  <p class="en">&ldquo;Test run&rdquo; is ticked, but this number belongs to a real participant. A
+  test run must use a number from 90 to 99.</p>
+</div>
+<div class="pair">
+  <p class="role">footer note, present on every screen</p>
+  <p class="th" lang="th">คำตอบเก็บแบบไม่ระบุตัวตน ใช้เพื่องานวิจัยเท่านั้น</p>
+  <p class="en">Answers are kept anonymously and used for research only.</p>
+</div>
+</section>
+
+<section class="screen" id="s2">
+<h2><span class="n">2</span>Consent: the five points</h2>
+<p class="gloss">Reached from the welcome screen. One screen, one tap, five points. The screen itself
+states that the researcher has already gone through these points in Thai Sign Language; the signed
+explanation, not this screen, is where the substance is delivered. Declining returns to the welcome
+screen, and no participant number is claimed.</p>
+
+<div class="pair">
+  <p class="role">eyebrow</p>
+  <p class="th" lang="th">ก่อนเริ่ม</p>
+  <p class="en">Before you start</p>
+</div>
+<div class="pair">
+  <p class="role">heading</p>
+  <p class="th" lang="th">ก่อนตัดสินใจ</p>
+  <p class="en">Before you decide</p>
+</div>
+<div class="pair">
+  <p class="role">point 1 of 5</p>
+  <p class="th" lang="th">คลิปเป็นภาษามือเยอรมัน ท่านไม่ต้องเข้าใจความหมาย ไม่มีคำตอบถูกผิด</p>
+  <p class="en">The clips are in German Sign Language. You do not need to understand the meaning.
+  There are no right or wrong answers.</p>
+</div>
+<div class="pair">
+  <p class="role">point 2 of 5</p>
+  <p class="th" lang="th">ประมาณ 20–25 นาที หยุดได้ทุกเมื่อด้วยปุ่ม “หยุดการประเมิน” หรือบอกผู้วิจัย</p>
+  <p class="en">About 20&ndash;25 minutes. You can stop at any time with the &ldquo;Stop the
+  evaluation&rdquo; button, or by telling the researcher.</p>
+  <p class="tnote"><b>Note.</b> The quoted button label is the withdrawal control documented on
+  screen&nbsp;8. The consent screen states the expected duration, 20&ndash;25 minutes; it does not
+  mention the 40-minute cap at which the session ends itself. A participant who reaches the cap sees
+  the done screen say so, and that message is documented on screen&nbsp;9.</p>
+</div>
+<div class="pair">
+  <p class="role">point 3 of 5</p>
+  <p class="th" lang="th">ไม่ถ่ายวิดีโอ ไม่ถ่ายภาพ ไม่บันทึกเสียง ไม่บันทึกชื่อของท่าน ใช้หมายเลขแทน</p>
+  <p class="en">No video is filmed, no photographs are taken, no audio is recorded, your name is not
+  recorded; a number is used instead.</p>
+</div>
+<div class="pair">
+  <p class="role">point 4 of 5</p>
+  <p class="th" lang="th">คะแนนของท่านแบบไม่มีชื่อจะเผยแพร่พร้อมบทความ ขอลบได้ภายใน 30 วันโดยแจ้งหมายเลขที่ท่านเก็บไว้</p>
+  <p class="en">Your ratings, without your name, will be published together with the article. You can
+  ask for them to be deleted within 30 days by giving the number you kept.</p>
+  <p class="tnote flagged"><b>Flag &mdash; the deletion window is worded differently here and in the
+  spoken script.</b> The screen says deletion can be requested
+  <span lang="th" style="font-family:var(--thai)">ภายใน 30 วัน</span>, &ldquo;within 30 days&rdquo;,
+  which reads as a deadline. The researcher&rsquo;s spoken script says it can be done until the
+  dataset closes, which will be &ldquo;no sooner than 30 days from today&rdquo; &mdash; a floor, not a
+  deadline. The two are compatible in that the screen promises the shorter window, but they are not
+  the same statement, and a reviewer checking consent against the script will see the difference.</p>
+</div>
+<div class="pair">
+  <p class="role">point 5 of 5</p>
+  <p class="th" lang="th">ท่านอายุ 18 ปีขึ้นไป และเข้าร่วมด้วยความสมัครใจ</p>
+  <p class="en">You are 18 years of age or older, and you are taking part voluntarily.</p>
+</div>
+<div class="pair">
+  <p class="role">note under the five points</p>
+  <p class="th" lang="th">ผู้วิจัยได้อธิบายเรื่องเหล่านี้เป็นภาษามือไทยแล้ว ถามได้ทุกข้อ</p>
+  <p class="en">The researcher has already explained these matters in Thai Sign Language. You may ask
+  about any of them.</p>
+</div>
+<div class="pair">
+  <p class="role">note, second line</p>
+  <p class="th" lang="th">กด “ยินยอมเข้าร่วม” = ท่านเข้าใจและเห็นด้วยกับ 5 ข้อนี้</p>
+  <p class="en">Pressing &ldquo;I consent to take part&rdquo; = you understand and agree with these 5
+  points.</p>
+</div>
+<div class="pair">
+  <p class="role">primary button</p>
+  <p class="th" lang="th">ยินยอมเข้าร่วม</p>
+  <p class="en">I consent to take part</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ยินยอม</span> is the
+  formal word for consent used in Thai legal and medical documents, not the everyday
+  &ldquo;agree&rdquo;.</p>
+</div>
+<div class="pair">
+  <p class="role">secondary button</p>
+  <p class="th" lang="th">ไม่เข้าร่วม</p>
+  <p class="en">I do not take part</p>
+</div>
+</section>
+
+<section class="screen" id="s3">
+<h2><span class="n">3</span>Seven language-background items</h2>
+<p class="gloss">Reached after consent, before any clip and before a participant number is claimed.
+Every item is answered with a single tap; nothing is typed. Every item carries a
+&ldquo;prefer not to answer&rdquo; option, and all seven must carry some answer before the button
+proceeds &mdash; declining to answer is an answer, but leaving an item untouched is not.</p>
+
+<div class="pair">
+  <p class="role">eyebrow</p>
+  <p class="th" lang="th">ข้อมูลพื้นฐาน</p>
+  <p class="en">Basic information</p>
+</div>
+<div class="pair">
+  <p class="role">heading</p>
+  <p class="th" lang="th">คำถามเกี่ยวกับภาษามือของท่าน</p>
+  <p class="en">Questions about your sign language</p>
+</div>
+<div class="pair">
+  <p class="role">lead paragraph</p>
+  <p class="th" lang="th">7 ข้อสั้น ๆ แตะเลือกคำตอบ ไม่ต้องพิมพ์ · ทุกข้อมี “ไม่ตอบ”</p>
+  <p class="en">7 short items. Tap to choose an answer, no typing needed · every item has &ldquo;no
+  answer&rdquo;.</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ไม่ตอบ</span> is
+  literally &ldquo;not answer&rdquo; / &ldquo;do not answer&rdquo;. It is rendered below as
+  &ldquo;prefer not to answer&rdquo;, which is what it does, but the Thai is blunter and shorter than
+  that English phrase.</p>
+</div>
+
+<div class="pair">
+  <p class="role">item 1, question &mdash; recorded as <span class="code">age</span></p>
+  <p class="th" lang="th">ท่านอายุอยู่ในช่วงใด</p>
+  <p class="en">Which age range are you in?</p>
+</div>
+<div class="pair">
+  <p class="role">item 1, the five answer buttons in screen order</p>
+  <p class="th" lang="th">18–29 ปี · 30–44 ปี · 45–59 ปี · 60 ปีขึ้นไป · ไม่ตอบ</p>
+  <p class="en">18&ndash;29 years · 30&ndash;44 years · 45&ndash;59 years · 60 years and over ·
+  prefer not to answer</p>
+</div>
+<div class="pair">
+  <p class="role">item 2, question &mdash; recorded as <span class="code">hearing</span></p>
+  <p class="th" lang="th">ท่านเป็น</p>
+  <p class="en">You are</p>
+  <p class="tnote"><b>Note on a deliberately unfinished sentence.</b> The Thai is two words and has no
+  noun and no question word: literally &ldquo;You are&rdquo;, completed by whichever button is
+  tapped. It is not a question in form. English cannot leave it hanging as neutrally, so
+  &ldquo;You are&rdquo; is the closest literal rendering; a fluent English questionnaire would have
+  written &ldquo;Which describes you?&rdquo;, which is more explicit than the original.</p>
+</div>
+<div class="pair">
+  <p class="role">item 2, the four answer buttons</p>
+  <p class="th" lang="th">คนหูหนวก · คนหูตึง · คนหูดี · ไม่ตอบ</p>
+  <p class="en">a Deaf person · a hard-of-hearing person · a hearing person · prefer not to answer</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">คนหูตึง</span> is
+  literally &ldquo;tight-eared person&rdquo; and <span lang="th"
+  style="font-family:var(--thai)">คนหูดี</span> literally &ldquo;good-eared person&rdquo;. Both are
+  the ordinary, unmarked Thai terms, including within the Thai Deaf community; neither is a euphemism
+  or a slur, and <span lang="th" style="font-family:var(--thai)">คนหูดี</span> is the standard way to
+  say &ldquo;hearing person&rdquo;. Thai does not mark the capital-D Deaf / lower-case deaf
+  distinction that English writing uses.</p>
+</div>
+<div class="pair">
+  <p class="role">item 3, question &mdash; recorded as <span class="code">tsl_onset</span></p>
+  <p class="th" lang="th">ท่านเริ่มใช้ภาษามือไทยตอนอายุเท่าไร</p>
+  <p class="en">At what age did you start using Thai Sign Language?</p>
+</div>
+<div class="pair">
+  <p class="role">item 3, the five answer buttons</p>
+  <p class="th" lang="th">แรกเกิดถึง 5 ปี · 6–12 ปี · 13–18 ปี · หลัง 18 ปี · ไม่ตอบ</p>
+  <p class="en">from birth to age 5 · 6&ndash;12 years · 13&ndash;18 years · after 18 · prefer not to
+  answer</p>
+</div>
+<div class="pair">
+  <p class="role">item 4, question &mdash; recorded as <span class="code">tsl_years</span></p>
+  <p class="th" lang="th">ท่านใช้ภาษามือไทยมากี่ปีแล้ว</p>
+  <p class="en">How many years have you been using Thai Sign Language?</p>
+</div>
+<div class="pair">
+  <p class="role">item 4, the five answer buttons</p>
+  <p class="th" lang="th">น้อยกว่า 5 ปี · 5–10 ปี · 11–20 ปี · มากกว่า 20 ปี · ไม่ตอบ</p>
+  <p class="en">fewer than 5 years · 5&ndash;10 years · 11&ndash;20 years · more than 20 years ·
+  prefer not to answer</p>
+</div>
+<div class="pair">
+  <p class="role">item 5, question &mdash; recorded as <span class="code">region</span></p>
+  <p class="th" lang="th">ท่านเรียนภาษามือไทยที่ภาคไหนเป็นหลัก</p>
+  <p class="en">In which region did you mainly learn Thai Sign Language?</p>
+</div>
+<div class="pair">
+  <p class="role">item 5, the seven answer buttons</p>
+  <p class="th" lang="th">กรุงเทพฯ และปริมณฑล · ภาคกลาง · ภาคเหนือ · ภาคอีสาน · ภาคใต้ · ภาคตะวันออกหรือตะวันตก · ไม่ตอบ</p>
+  <p class="en">Bangkok and its surrounding provinces · the Central region · the North · the Northeast
+  (Isan) · the South · the East or the West · prefer not to answer</p>
+  <p class="tnote"><b>Note.</b>
+  <span lang="th" style="font-family:var(--thai)">ปริมณฑล</span> is the standard term for the ring of
+  provinces around Bangkok, translated here as &ldquo;its surrounding provinces&rdquo;.
+  <span lang="th" style="font-family:var(--thai)">ภาคอีสาน</span> is the north-eastern region, known
+  in English both as the Northeast and by its Thai name Isan.</p>
+</div>
+<div class="pair">
+  <p class="role">item 6, question &mdash; recorded as <span class="code">dgs</span></p>
+  <p class="th" lang="th">ท่านเคยเห็นภาษามือเยอรมันมาก่อนไหม</p>
+  <p class="en">Have you seen German Sign Language before?</p>
+</div>
+<div class="pair">
+  <p class="role">item 6, the five answer buttons</p>
+  <p class="th" lang="th">ไม่เคยเห็นเลย · เคยดูคลิปบ้าง · เคยเรียนหรือเคยใช้ · รู้จักคนที่ใช้ภาษามือเยอรมัน · ไม่ตอบ</p>
+  <p class="en">never seen it at all · have watched some clips · have studied it or used it · know
+  someone who uses German Sign Language · prefer not to answer</p>
+</div>
+<div class="pair">
+  <p class="role">item 7, question &mdash; recorded as <span class="code">thai_read</span></p>
+  <p class="th" lang="th">ท่านอ่านข้อความภาษาไทยสั้น ๆ บนหน้าจอได้สะดวกไหม</p>
+  <p class="en">Can you read short Thai text on a screen comfortably?</p>
+  <p class="tnote"><b>Note.</b> This item exists because the instrument itself is written Thai. Many
+  Deaf Thai signers read Thai as a second language, so the answer conditions how much of the on-screen
+  wording can be assumed to have landed.</p>
+</div>
+<div class="pair">
+  <p class="role">item 7, the four answer buttons</p>
+  <p class="th" lang="th">อ่านสะดวก · อ่านได้แต่ต้องใช้เวลา · ต้องมีคนแปลเป็นภาษามือ · ไม่ตอบ</p>
+  <p class="en">read it comfortably · can read it but need time · need someone to translate it into
+  sign language · prefer not to answer</p>
+</div>
+<div class="pair">
+  <p class="role">button</p>
+  <p class="th" lang="th">เริ่มประเมิน</p>
+  <p class="en">Start the evaluation</p>
+</div>
+<div class="pair">
+  <p class="role">error, when items are unanswered &mdash; shown here as rendered, with a real value;
+  in the source it is built from the two literals <span class="code">"กรุณาตอบให้ครบทุกข้อ ("</span>
+  and <span class="code">" ข้อ)"</span> around a number</p>
+  <p class="th" lang="th">กรุณาตอบให้ครบทุกข้อ (3 ข้อ)</p>
+  <p class="en">Please answer every item (3 items).</p>
+  <p class="tnote"><b>Ambiguity, stated rather than resolved.</b> The number in brackets is the count
+  of items still unanswered, but the Thai does not say so: it reads &ldquo;(3 items)&rdquo; with no
+  word for &ldquo;remaining&rdquo; or &ldquo;missing&rdquo;. A participant could equally read it as
+  &ldquo;answer all the items, of which there are 3&rdquo;. In the source the value passed in is
+  <span class="code">missing.length</span>, the number not yet answered.</p>
+</div>
+</section>
+
+<section class="screen" id="s4">
+<h2><span class="n">4</span>Part 1: a single-clip trial</h2>
+<p class="gloss">The screen a participant meets 51 times: one practice trial, then 50 rated trials.
+One silent clip plays automatically, the four rating rows below it stay locked until the clip has
+ended, and once all four are answered the page advances itself after 700&nbsp;ms. The four scales are
+always shown together, in this order, and are never collapsed into one score.</p>
+
+<h3 class="groupname">The bar across the top, and the clip</h3>
+<div class="pair">
+  <p class="role">counter, top left, on a rated trial</p>
+  <p class="th" lang="th">${pos+1} / ${trials.length}</p>
+  <p class="en">Digits only, no words: &ldquo;1 / 50&rdquo; through &ldquo;50 / 50&rdquo;. The count is
+  of rated trials, so the practice trial is not numbered.</p>
+</div>
+<div class="pair">
+  <p class="role">counter, on the practice trial</p>
+  <p class="th" lang="th">ฝึก</p>
+  <p class="en">Practice</p>
+</div>
+<div class="pair">
+  <p class="role">progress bar, screen-reader label</p>
+  <p class="th" lang="th">ความคืบหน้า</p>
+  <p class="en">Progress &mdash; the bar fills over the 70 scored screens of the three parts.</p>
+</div>
+<div class="pair">
+  <p class="role">clock, top right, appearing only in the last five minutes</p>
+  <p class="th" lang="th">—</p>
+  <p class="en">Digits only, minutes and seconds, counting down (for example &ldquo;4:37&rdquo;); it
+  turns red under one minute. Next to it the bar shows the participant code, for example
+  &ldquo;P07&rdquo;.</p>
+</div>
+<div class="pair">
+  <p class="role">badge above the clip, on the practice trial only</p>
+  <p class="th" lang="th">คลิปฝึก · ยังไม่นับคะแนน</p>
+  <p class="en">Practice clip · not counted yet</p>
+  <p class="tnote"><b>Note.</b> Literally &ldquo;the score is not yet being counted&rdquo;. The
+  practice clip is always the reference rendering of one of the ten items, chosen so that its item is
+  not among the first two rated trials, and its answers are kept only in the session document.</p>
+</div>
+<div class="pair">
+  <p class="role">button over the clip, shown only if the browser refuses to autoplay</p>
+  <p class="th" lang="th">แตะเพื่อเล่นคลิป</p>
+  <p class="en">Tap to play the clip</p>
+</div>
+
+<h3 class="groupname">The replay affordance</h3>
+<div class="pair">
+  <p class="role">button under the clip</p>
+  <p class="th" lang="th">เล่นซ้ำ</p>
+  <p class="en">Play again</p>
+</div>
+<div class="pair">
+  <p class="role">counter beside the replay button, while replays remain</p>
+  <p class="th" lang="th">ดูซ้ำได้อีก ${l} ครั้ง</p>
+  <p class="en">You can watch it <span class="ph">${l}</span> more times. &mdash; With a real value,
+  immediately after the automatic first play of a single-clip screen: &ldquo;You can watch it 2 more
+  times.&rdquo; On a pair screen the same string starts at 3.</p>
+  <p class="tnote"><b>Note.</b> This counter is empty before the first play has started, so a
+  participant sees no replay budget until the clip is already running. It is also the string that
+  contradicts welcome bullet 6, which promises one further viewing.</p>
+</div>
+<div class="pair">
+  <p class="role">counter, once no replays remain</p>
+  <p class="th" lang="th">ดูครบแล้ว</p>
+  <p class="en">You have watched it in full. &mdash; Meaning: the replays are used up. The replay
+  button is disabled at this point.</p>
+  <p class="tnote"><b>Translation uncertainty.</b>
+  <span lang="th" style="font-family:var(--thai)">ดูครบแล้ว</span> is
+  &ldquo;watched-complete-already&rdquo;. In context it means &ldquo;you have used all your
+  views&rdquo;, but the Thai is terse enough that it could also be read as &ldquo;you have watched
+  everything&rdquo;. The English above is the reading the code&rsquo;s behaviour supports.</p>
+</div>
+
+<h3 class="groupname">The four rating questions, with both scale ends</h3>
+<div class="pair">
+  <p class="role">rating 1, question &mdash; recorded as <span class="code">natural</span></p>
+  <p class="th" lang="th">การเคลื่อนไหวดูเป็นธรรมชาติเพียงใด</p>
+  <p class="en">How natural does the movement look?</p>
+</div>
+<div class="pair">
+  <p class="role">rating 1, low end of the scale</p>
+  <p class="th" lang="th">1 · การเคลื่อนไหวไม่เหมือนคนจริงเลย</p>
+  <p class="en">1 · The movement is not like a real person at all</p>
+</div>
+<div class="pair">
+  <p class="role">rating 1, high end of the scale</p>
+  <p class="th" lang="th">5 · การเคลื่อนไหวเหมือนคนจริง</p>
+  <p class="en">5 · The movement is like a real person</p>
+</div>
+<div class="pair">
+  <p class="role">rating 2, question &mdash; recorded as <span class="code">smooth</span></p>
+  <p class="th" lang="th">ความลื่นไหลและจังหวะ</p>
+  <p class="en">Smoothness and rhythm</p>
+  <p class="tnote"><b>Note.</b> This row is a noun phrase, not a question: it names the dimension and
+  leaves the scale to say the rest. <span lang="th"
+  style="font-family:var(--thai)">ลื่นไหล</span> is &ldquo;slipping and flowing&rdquo;, used of
+  motion that runs on without catching; <span lang="th"
+  style="font-family:var(--thai)">จังหวะ</span> is rhythm or timing.</p>
+</div>
+<div class="pair">
+  <p class="role">rating 2, low end</p>
+  <p class="th" lang="th">1 · กระตุก สะดุด</p>
+  <p class="en">1 · Jerky, stumbling</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">กระตุก</span> is a
+  twitch or jerk; <span lang="th" style="font-family:var(--thai)">สะดุด</span> is to trip or stumble,
+  used of motion that catches on something. Two words, no conjunction.</p>
+</div>
+<div class="pair">
+  <p class="role">rating 2, high end</p>
+  <p class="th" lang="th">5 · ลื่นไหล</p>
+  <p class="en">5 · Smooth and flowing</p>
+</div>
+<div class="pair">
+  <p class="role">rating 3, question &mdash; recorded as <span class="code">clarity</span></p>
+  <p class="th" lang="th">ท่ามือและลำตัวชัดเจนเพียงใด</p>
+  <p class="en">How clear are the hand postures and the torso?</p>
+</div>
+<div class="pair">
+  <p class="role">rating 3, low end</p>
+  <p class="th" lang="th">1 · ไม่ชัด แยกท่าไม่ออก</p>
+  <p class="en">1 · Not clear; the postures cannot be told apart</p>
+  <p class="tnote"><b>Note.</b> <span lang="th"
+  style="font-family:var(--thai)">แยกท่าไม่ออก</span> is &ldquo;cannot separate out the
+  postures&rdquo; &mdash; the individual signs cannot be distinguished from one another.</p>
+</div>
+<div class="pair">
+  <p class="role">rating 3, high end</p>
+  <p class="th" lang="th">5 · ชัดเจนมาก</p>
+  <p class="en">5 · Very clear</p>
+</div>
+<div class="pair">
+  <p class="role">rating 4, question &mdash; recorded as <span class="code">connected</span></p>
+  <p class="th" lang="th">ดูเป็นการทำภาษามือต่อเนื่องเป็นประโยคเดียวเพียงใด</p>
+  <p class="en">How much does it look like continuous signing forming a single sentence?</p>
+</div>
+<div class="pair">
+  <p class="role">rating 4, low end</p>
+  <p class="th" lang="th">1 · เหมือนเอาหลายท่อนมาต่อกัน</p>
+  <p class="en">1 · Like several pieces joined together</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ท่อน</span> is a
+  segment, length or chunk of something &mdash; a log, a passage of music, a stretch of road. The
+  Thai does not use any technical word for splicing or stitching.</p>
+</div>
+<div class="pair">
+  <p class="role">rating 4, high end</p>
+  <p class="th" lang="th">5 · ต่อเนื่องเป็นประโยคเดียว</p>
+  <p class="en">5 · Continuous, a single sentence</p>
+</div>
+<div class="pair">
+  <p class="role">the answer buttons on each of the four rows</p>
+  <p class="th" lang="th">1 · 2 · 3 · 4 · 5</p>
+  <p class="en">Five buttons per row, labelled with the digits 1 to 5 and nothing else. Their
+  screen-reader label adds the unit: <span lang="th"
+  style="font-family:var(--thai)">${v} คะแนน</span>, &ldquo;<span class="ph">N</span> points&rdquo;.
+  The buttons are disabled until the clip has ended.</p>
+</div>
+
+<h3 class="groupname">The hint line under the questions</h3>
+<div class="pair">
+  <p class="role">hint while the buttons are locked, rated trial</p>
+  <p class="th" lang="th">ดูคลิปให้จบ แล้วให้คะแนนทั้งสี่ข้อ</p>
+  <p class="en">Watch the clip to the end, then rate all four items.</p>
+</div>
+<div class="pair">
+  <p class="role">hint while the buttons are locked, practice trial</p>
+  <p class="th" lang="th">คลิปฝึก ดูให้จบแล้วลองให้คะแนนดู</p>
+  <p class="en">Practice clip. Watch it to the end, then have a go at rating it.</p>
+  <p class="tnote"><b>Note.</b> The final <span lang="th"
+  style="font-family:var(--thai)">ลอง&hellip;ดู</span> construction means &ldquo;try it and
+  see&rdquo;; it makes the practice rating an experiment rather than a task.</p>
+</div>
+<div class="pair">
+  <p class="role">hint once the buttons unlock, rated trial</p>
+  <p class="th" lang="th">ให้คะแนนทั้งสี่ข้อ แล้วจะไปคลิปถัดไปเอง</p>
+  <p class="en">Rate all four items and it will go to the next clip by itself.</p>
+</div>
+<div class="pair">
+  <p class="role">hint once the buttons unlock, practice trial</p>
+  <p class="th" lang="th">คลิปฝึก ลองให้คะแนนทั้งสี่ข้อ</p>
+  <p class="en">Practice clip. Try rating all four items.</p>
+</div>
+<div class="pair">
+  <p class="role">hint after the last of the four answers, rated trial</p>
+  <p class="th" lang="th">รับคำตอบแล้ว กำลังไปคลิปถัดไป</p>
+  <p class="en">Answer received. Going to the next clip.</p>
+</div>
+<div class="pair">
+  <p class="role">hint after the last of the four answers, practice trial</p>
+  <p class="th" lang="th">รับคำตอบแล้ว คลิปถัดไปจะเริ่มนับคะแนน</p>
+  <p class="en">Answer received. The next clip starts counting.</p>
+</div>
+<div class="pair">
+  <p class="role">interaction with no text</p>
+  <p class="th" lang="th">—</p>
+  <p class="en">Tapping a locked rating row produces no message. The hint line nudges &mdash; a short
+  animation, 700&nbsp;ms &mdash; so the tap is acknowledged without new words appearing.</p>
+</div>
+</section>
+
+<section class="screen" id="s5">
+<h2><span class="n">5</span>The break</h2>
+<p class="gloss">Shown once, after 25 of the 50 rated single-clip trials. The clock stops while this
+screen is up and the whole pause is credited back to the 40-minute deadline, so the break cannot eat
+the session.</p>
+
+<div class="pair">
+  <p class="role">heading</p>
+  <p class="th" lang="th">พักสักครู่</p>
+  <p class="en">Take a short break</p>
+</div>
+<div class="pair">
+  <p class="role">lead paragraph, assembled at run time</p>
+  <p class="th" lang="th">ให้คะแนนไปแล้ว ${log.length} จาก ${trials.length} คลิป เหลืออีก ${trials.length-log.length} คลิป</p>
+  <p class="en">You have rated <span class="ph">25</span> of <span class="ph">50</span> clips;
+  <span class="ph">25</span> clips remain. &mdash; Those are the values in a normal session, since the
+  break falls after the 25th rated trial.</p>
+</div>
+<div class="pair">
+  <p class="role">status line, when the answers so far reached the online store</p>
+  <p class="th" lang="th">คำตอบที่ให้ไว้แล้วบันทึกเรียบร้อย</p>
+  <p class="en">The answers you have given have been saved.</p>
+</div>
+<div class="pair">
+  <p class="role">status line, when they are only on this device</p>
+  <p class="th" lang="th">คำตอบที่ให้ไว้แล้วเก็บไว้ในเครื่องนี้แล้ว</p>
+  <p class="en">The answers you have given are stored on this device.</p>
+</div>
+<div class="pair">
+  <p class="role">note</p>
+  <p class="th" lang="th">ยืดเส้นยืดสาย พักสายตาได้ตามสบาย เวลาจะหยุดนับระหว่างพัก เมื่อพร้อมแล้วกดปุ่มด้านล่างเพื่อทำต่อ</p>
+  <p class="en">Stretch your limbs, rest your eyes as much as you like. The clock stops during the
+  break. When you are ready, press the button below to carry on.</p>
+  <p class="tnote"><b>Note.</b> <span lang="th"
+  style="font-family:var(--thai)">ยืดเส้นยืดสาย</span> is a fixed idiom, literally
+  &ldquo;stretch the tendons, stretch the cords&rdquo;, used for loosening up after sitting still;
+  &ldquo;stretch your limbs&rdquo; is the nearest plain English.
+  <span lang="th" style="font-family:var(--thai)">ตามสบาย</span> is &ldquo;as you please, at your
+  ease&rdquo;.</p>
+</div>
+<div class="pair">
+  <p class="role">button</p>
+  <p class="th" lang="th">ทำต่อ</p>
+  <p class="en">Carry on</p>
+</div>
+</section>
+
+<section class="screen" id="s6">
+<h2><span class="n">6</span>Part 2: forced choice, no tie</h2>
+<p class="gloss">An instruction screen, then ten pair screens. Two clips of the same sentence play
+side by side and in synchrony; the participant must pick one. Neither clip is labelled with anything
+but its side, and there is no reference on these screens. Three of the ten pairs are the same file
+twice; on those, any preference is side bias by construction. The clock is stopped on the instruction
+screen.</p>
+
+<h3 class="groupname">Instruction screen</h3>
+<div class="pair">
+  <p class="role">heading</p>
+  <p class="th" lang="th">ส่วนที่ 2 · คลิปไหนลื่นไหลกว่า</p>
+  <p class="en">Part 2 · Which clip is smoother</p>
+</div>
+<div class="pair">
+  <p class="role">lead paragraph, assembled at run time</p>
+  <p class="th" lang="th">ให้คะแนนครบ ${log.length} คลิปแล้ว ต่อไปเป็นส่วนสั้น ๆ ${choices.length} คู่</p>
+  <p class="en">You have rated all <span class="ph">50</span> clips. Next is a short part,
+  <span class="ph">10</span> pairs.</p>
+</div>
+<div class="pair">
+  <p class="role">note 1</p>
+  <p class="th" lang="th">ท่านจะเห็นคลิป 2 คลิปเล่นพร้อมกัน ทั้งสองคลิปเป็นประโยคเดียวกันและยาวเท่ากัน</p>
+  <p class="en">You will see 2 clips playing at the same time. Both clips are the same sentence and
+  the same length.</p>
+</div>
+<div class="pair">
+  <p class="role">note 2 &mdash; the two-option question and the no-tie rule</p>
+  <p class="th" lang="th">เลือกว่าคลิปไหนเคลื่อนไหวลื่นไหลกว่า ซ้ายหรือขวา ต้องเลือกหนึ่งคลิปเสมอ ถ้าดูแล้วไม่ต่างกันจริง ๆ ให้เลือกคลิปที่รู้สึกว่าลื่นไหลกว่าแม้เพียงเล็กน้อย</p>
+  <p class="en">Choose which clip moves more smoothly, left or right. You must always choose one clip.
+  If, having watched, they really are no different, choose the one that feels smoother even by a very
+  little.</p>
+</div>
+<div class="pair">
+  <p class="role">note 3</p>
+  <p class="th" lang="th">ถ้าสองคลิปต่างกัน ความต่างอาจอยู่เพียงช่วงสั้น ๆ ช่วงเดียว จึงควรดูทั้งสองคลิปจนจบ</p>
+  <p class="en">If the two clips do differ, the difference may lie in only one short stretch, so you
+  should watch both clips through to the end.</p>
+</div>
+<div class="pair">
+  <p class="role">note 4</p>
+  <p class="th" lang="th">บางคู่อาจดูเหมือนกันมาก นั่นเป็นเรื่องปกติ ไม่ต้องกังวล</p>
+  <p class="en">Some pairs may look very much alike. That is normal; there is no need to worry.</p>
+  <p class="tnote"><b>Note.</b> This is the sentence that prepares the participant for the three
+  byte-identical control pairs without telling them that identical pairs exist.</p>
+</div>
+<div class="pair">
+  <p class="role">button</p>
+  <p class="th" lang="th">เริ่มส่วนที่ 2</p>
+  <p class="en">Start Part 2</p>
+</div>
+
+<h3 class="groupname">The forced-choice screen</h3>
+<div class="pair">
+  <p class="role">counter, top left</p>
+  <p class="th" lang="th">คู่ ${ci+1} / ${choices.length}</p>
+  <p class="en">Pair <span class="ph">1</span> / <span class="ph">10</span></p>
+</div>
+<div class="pair">
+  <p class="role">caption above the left clip, and above the right clip</p>
+  <p class="th" lang="th">ซ้าย · ขวา</p>
+  <p class="en">Left · Right &mdash; the only captions in this phase. Nothing identifies either clip
+  beyond its side.</p>
+</div>
+<div class="pair">
+  <p class="role">question</p>
+  <p class="th" lang="th">คลิปไหนเคลื่อนไหวลื่นไหลกว่ากัน</p>
+  <p class="en">Which clip moves more smoothly?</p>
+  <p class="tnote"><b>Note.</b> On screen the word
+  <span lang="th" style="font-family:var(--thai)">ลื่นไหล</span> (smooth, flowing) is bold inside the
+  question. The final <span lang="th" style="font-family:var(--thai)">กว่ากัน</span> makes it an
+  explicit comparison between the two, &ldquo;more so than the other&rdquo;.</p>
+</div>
+<div class="pair">
+  <p class="role">the two answer buttons</p>
+  <p class="th" lang="th">ซ้าย · ขวา</p>
+  <p class="en">Left · Right &mdash; two wide buttons, in that order, whatever the pair.</p>
+</div>
+<div class="pair">
+  <p class="role">left-hand end note under the buttons</p>
+  <p class="th" lang="th">เลือกหนึ่งคลิป</p>
+  <p class="en">Choose one clip</p>
+</div>
+<div class="pair">
+  <p class="role">right-hand end note under the buttons &mdash; the explicit no-tie statement</p>
+  <p class="th" lang="th">ไม่มีตัวเลือก “เท่ากัน”</p>
+  <p class="en">There is no &ldquo;equal&rdquo; option</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">เท่ากัน</span> is
+  &ldquo;equal&rdquo; or &ldquo;the same as each other&rdquo;. The sentence states the absence of a
+  tie option as a fact about the screen rather than as an instruction, and the word is in quotation
+  marks in the original because it names a button that is not there.</p>
+</div>
+<div class="pair">
+  <p class="role">hint while the buttons are locked</p>
+  <p class="th" lang="th">ดูทั้งสองคลิปให้จบ แล้วเลือกคลิปที่ลื่นไหลกว่า</p>
+  <p class="en">Watch both clips to the end, then choose the smoother clip.</p>
+</div>
+<div class="pair">
+  <p class="role">hint once the buttons unlock</p>
+  <p class="th" lang="th">เลือกคลิปที่ลื่นไหลกว่า ซ้ายหรือขวา แล้วจะไปคู่ถัดไปเอง</p>
+  <p class="en">Choose the smoother clip, left or right, and it will go to the next pair by itself.</p>
+</div>
+</section>
+
+<section class="screen" id="s7">
+<h2><span class="n">7</span>Part 3: fidelity against the reference</h2>
+<p class="gloss">An instruction screen, then ten pair screens. One clip is labelled as the reference
+and the other as the clip under evaluation, the two labels swap sides from pair to pair, and the
+participant gives one five-point rating of how well the movement matches. This is the only phase in
+which the participant is told that one of the two clips is the standard.</p>
+
+<h3 class="groupname">Instruction screen</h3>
+<div class="pair">
+  <p class="role">heading</p>
+  <p class="th" lang="th">ส่วนที่ 3 · เปรียบเทียบกับต้นแบบ</p>
+  <p class="en">Part 3 · Compare against the reference</p>
+</div>
+<div class="pair">
+  <p class="role">lead paragraph, assembled at run time</p>
+  <p class="th" lang="th">เหลืออีก ${pairs.length} คู่สุดท้าย</p>
+  <p class="en"><span class="ph">10</span> final pairs remain.</p>
+</div>
+<div class="pair">
+  <p class="role">note 1 &mdash; the reference and candidate labels</p>
+  <p class="th" lang="th">ท่านจะเห็นคลิป 2 คลิปคู่กัน คลิปหนึ่งคือต้นแบบ อีกคลิปคือคลิปที่ประเมิน ตำแหน่งซ้าย–ขวาสลับกันไปในแต่ละคู่ โปรดดูป้ายกำกับเหนือคลิป</p>
+  <p class="en">You will see 2 clips side by side. One clip is the reference; the other is the clip
+  being evaluated. The left&ndash;right positions swap from pair to pair. Please look at the label
+  above each clip.</p>
+  <p class="tnote"><b>Note.</b> On screen &ldquo;ต้นแบบ&rdquo; (the reference) and
+  &ldquo;คลิปที่ประเมิน&rdquo; (the clip being evaluated) are bold inside this sentence.</p>
+</div>
+<div class="pair">
+  <p class="role">note 2</p>
+  <p class="th" lang="th">ให้คะแนนว่าการเคลื่อนไหวของคลิปที่ประเมินตรงกับต้นแบบเพียงใด ไม่ต้องตัดสินว่าคลิปใดสวยกว่า</p>
+  <p class="en">Rate how far the movement of the clip being evaluated matches the reference. You do
+  not have to judge which clip is prettier.</p>
+</div>
+<div class="pair">
+  <p class="role">button</p>
+  <p class="th" lang="th">เริ่มส่วนที่ 3</p>
+  <p class="en">Start Part 3</p>
+</div>
+
+<h3 class="groupname">The fidelity screen</h3>
+<div class="pair">
+  <p class="role">counter, top left</p>
+  <p class="th" lang="th">คู่ ${pi+1} / ${pairs.length}</p>
+  <p class="en">Pair <span class="ph">1</span> / <span class="ph">10</span></p>
+</div>
+<div class="pair">
+  <p class="role">caption above one clip &mdash; the reference label</p>
+  <p class="th" lang="th">ต้นแบบ</p>
+  <p class="en">Reference &mdash; literally &ldquo;the original&rdquo; or &ldquo;the master&rdquo;. The
+  cell carrying this label also gets a visual emphasis in the stylesheet.</p>
+</div>
+<div class="pair">
+  <p class="role">caption above the other clip &mdash; the candidate label</p>
+  <p class="th" lang="th">คลิปที่ประเมิน</p>
+  <p class="en">The clip being evaluated</p>
+</div>
+<div class="pair">
+  <p class="role">question &mdash; recorded as <span class="code">fidelity</span></p>
+  <p class="th" lang="th">การเคลื่อนไหวของคลิปที่ประเมินตรงกับต้นแบบเพียงใด</p>
+  <p class="en">How far does the movement of the clip being evaluated match the reference?</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ตรงกับ</span> is
+  &ldquo;matches&rdquo; or &ldquo;coincides with&rdquo;, as of two things lining up. It does not carry
+  &ldquo;is as good as&rdquo;.</p>
+</div>
+<div class="pair">
+  <p class="role">low end of the scale</p>
+  <p class="th" lang="th">1 · ต่างกันมาก</p>
+  <p class="en">1 · Very different</p>
+</div>
+<div class="pair">
+  <p class="role">high end of the scale</p>
+  <p class="th" lang="th">5 · ตรงกันมาก</p>
+  <p class="en">5 · Matches very closely</p>
+</div>
+<div class="pair">
+  <p class="role">hint while the buttons are locked</p>
+  <p class="th" lang="th">ดูทั้งสองคลิปให้จบ แล้วให้คะแนนความตรงกับต้นแบบ</p>
+  <p class="en">Watch both clips to the end, then rate the match with the reference.</p>
+</div>
+<div class="pair">
+  <p class="role">hint once the buttons unlock</p>
+  <p class="th" lang="th">ให้คะแนนความตรงกับต้นแบบ แล้วจะไปคู่ถัดไปเอง</p>
+  <p class="en">Rate the match with the reference and it will go to the next pair by itself.</p>
+</div>
+</section>
+
+<section class="screen" id="s8">
+<h2><span class="n">8</span>Withdrawal and its confirmation</h2>
+<p class="gloss">A quiet button, present on every rating and pair screen, never on the instruction or
+break screens. It takes two taps. Withdrawing keeps the answers already given and ends the session
+through the same finish path as a completed one, so the researcher sees a withdrawal rather than a
+closed tab.</p>
+
+<div class="pair">
+  <p class="role">the control itself</p>
+  <p class="th" lang="th">หยุดการประเมิน</p>
+  <p class="en">Stop the evaluation</p>
+  <p class="tnote"><b>Note.</b> This is the exact wording quoted in consent point 2, so the promise
+  and the button match.</p>
+</div>
+<div class="pair">
+  <p class="role">confirmation text</p>
+  <p class="th" lang="th">ต้องการหยุดตรงนี้ใช่ไหม คำตอบที่ให้ไว้แล้วจะถูกเก็บ และจะทำต่อไม่ได้</p>
+  <p class="en">Do you want to stop here? The answers you have already given will be kept, and you
+  will not be able to carry on.</p>
+  <p class="tnote"><b>Note.</b> The Thai states both consequences flatly and in this order: the
+  answers are kept, and the session cannot be resumed. It does not offer to discard the answers.</p>
+</div>
+<div class="pair">
+  <p class="role">confirmation group, screen-reader label</p>
+  <p class="th" lang="th">ยืนยันการหยุด</p>
+  <p class="en">Confirm stopping</p>
+</div>
+<div class="pair">
+  <p class="role">button that returns to the trial</p>
+  <p class="th" lang="th">ทำต่อ</p>
+  <p class="en">Carry on</p>
+</div>
+<div class="pair">
+  <p class="role">button that ends the session</p>
+  <p class="th" lang="th">หยุด</p>
+  <p class="en">Stop</p>
+</div>
+</section>
+
+<section class="screen" id="s9">
+<h2><span class="n">9</span>The done screen, the participant code, and failed-upload recovery</h2>
+<p class="gloss">One screen with four possible headings, depending on how the session ended:
+completed, withdrawn, ended early because clips would not play, or stopped by the 40-minute cap. It
+shows the participant code, because that code is the only key by which the participant can later ask
+for their data to be deleted, and the top bar that normally carries it is hidden here. If neither
+delivery route worked, a recovery panel appears with the answers as text.</p>
+
+<h3 class="groupname">Headings, one per ending</h3>
+<div class="pair">
+  <p class="role">heading &mdash; completed, and also after the time cap</p>
+  <p class="th" lang="th">เสร็จแล้ว ขอบคุณมากครับ/ค่ะ</p>
+  <p class="en">Finished. Thank you very much.</p>
+</div>
+<div class="pair">
+  <p class="role">heading &mdash; after withdrawal</p>
+  <p class="th" lang="th">หยุดการประเมินแล้ว ขอบคุณครับ/ค่ะ</p>
+  <p class="en">The evaluation has been stopped. Thank you.</p>
+</div>
+<div class="pair">
+  <p class="role">heading &mdash; after three unplayable clips in a row</p>
+  <p class="th" lang="th">จบการประเมินก่อนกำหนด</p>
+  <p class="en">The evaluation has ended earlier than planned.</p>
+</div>
+
+<h3 class="groupname">The summary line, one per ending</h3>
+<div class="pair">
+  <p class="role">summary &mdash; completed; built from three fragments</p>
+  <p class="th" lang="th">ท่านให้คะแนนครบ ${n} คลิป เลือกเปรียบเทียบ ${nc} คู่ และเปรียบเทียบกับต้นแบบ ${nf} คู่</p>
+  <p class="en">You have rated all <span class="ph">50</span> clips, made
+  <span class="ph">10</span> comparison choices, and compared <span class="ph">10</span> pairs against
+  the reference.</p>
+  <p class="tnote"><b>Note.</b> In the source this sentence is three separate template fragments,
+  <span class="code">`ท่านให้คะแนนครบ ${n} คลิป`</span>,
+  <span class="code">` เลือกเปรียบเทียบ ${nc} คู่`</span> and
+  <span class="code">` และเปรียบเทียบกับต้นแบบ ${nf} คู่`</span>; the last two are dropped when their
+  count is zero, so a session cut short reads as a shorter sentence rather than one with zeros in
+  it.</p>
+</div>
+<div class="pair">
+  <p class="role">summary &mdash; after the time cap</p>
+  <p class="th" lang="th">ครบเวลาที่กำหนด 40 นาที ท่านให้คะแนนไปแล้ว ${n} คลิป</p>
+  <p class="en">The allotted 40 minutes are up. You have rated <span class="ph">N</span> clips &mdash;
+  followed by the same comparison fragments where they apply, and ending with
+  <span lang="th" style="font-family:var(--thai)">ถือว่าเสร็จสมบูรณ์</span>, &ldquo;this counts as
+  fully complete&rdquo;.</p>
+  <p class="tnote"><b>Note.</b> This is the only place a participant is shown the 40-minute figure.
+  The closing phrase matters: reaching the cap is presented to the participant as a complete session,
+  not as a failure or a shortfall.</p>
+</div>
+<div class="pair">
+  <p class="role">summary &mdash; after three unplayable clips in a row</p>
+  <p class="th" lang="th">คลิปหลายคลิปเปิดไม่ได้ จึงจบการประเมินก่อนกำหนด ท่านให้คะแนนไปแล้ว ${n} คลิป</p>
+  <p class="en">Several clips could not be opened, so the evaluation has ended earlier than planned.
+  You have rated <span class="ph">N</span> clips &mdash; ending with
+  <span lang="th" style="font-family:var(--thai)">กรุณาแจ้งผู้วิจัย</span>, &ldquo;please tell the
+  researcher&rdquo;.</p>
+</div>
+<div class="pair">
+  <p class="role">summary &mdash; after withdrawal</p>
+  <p class="th" lang="th">ท่านหยุดการประเมินแล้ว ให้คะแนนไปแล้ว ${n} คลิป</p>
+  <p class="en">You have stopped the evaluation. You have rated <span class="ph">N</span> clips
+  &mdash; ending with <span lang="th"
+  style="font-family:var(--thai)">ขอบคุณสำหรับเวลาของท่าน</span>, &ldquo;thank you for your
+  time&rdquo;.</p>
+</div>
+<div class="pair">
+  <p class="role">time taken, under the summary</p>
+  <p class="th" lang="th">ใช้เวลาประมาณ ${m} นาที</p>
+  <p class="en">Took about <span class="ph">N</span> minutes. &mdash; Under one minute the same line
+  reads <span lang="th" style="font-family:var(--thai)">ใช้เวลาไม่ถึง 1 นาที</span>, &ldquo;took less
+  than 1 minute&rdquo;. In the source the sentence is the fragment
+  <span class="code">`ใช้เวลา${fmtMin(activeMs())}`</span> with
+  <span class="code">`ประมาณ ${m} นาที`</span> or
+  <span class="code">"ไม่ถึง 1 นาที"</span> substituted.</p>
+</div>
+
+<h3 class="groupname">The participant code</h3>
+<div class="pair">
+  <p class="role">note above the code</p>
+  <p class="th" lang="th">หมายเลขของท่าน · เก็บไว้หากต้องการขอลบข้อมูลภายหลัง</p>
+  <p class="en">Your number · keep it if you may want to ask for your data to be deleted later</p>
+</div>
+<div class="pair">
+  <p class="role">the code itself, displayed large</p>
+  <p class="th" lang="th">P07</p>
+  <p class="en">The participant code, formed as the letter P and the two-digit number the researcher
+  assigned, from <span class="code">P01</span> to <span class="code">P99</span>. This is the whole of
+  what identifies the session; no name is recorded anywhere.</p>
+</div>
+
+<h3 class="groupname">Delivery status</h3>
+<div class="pair">
+  <p class="role">status, while saving</p>
+  <p class="th" lang="th">กำลังบันทึก…</p>
+  <p class="en">Saving&hellip;</p>
+</div>
+<div class="pair">
+  <p class="role">status, when the online store confirmed the write</p>
+  <p class="th" lang="th">บันทึกเรียบร้อย ${n} รายการ ขอบคุณครับ/ค่ะ ท่านปิดหน้านี้ได้</p>
+  <p class="en">Saved, <span class="ph">70</span> records. Thank you. You can close this page.</p>
+</div>
+<div class="pair">
+  <p class="role">status, when the rows were sent but receipt cannot be confirmed</p>
+  <p class="th" lang="th">ส่งคำตอบแล้ว ${n} รายการ ขอบคุณครับ/ค่ะ ท่านปิดหน้านี้ได้</p>
+  <p class="en">Answers sent, <span class="ph">70</span> records. Thank you. You can close this
+  page.</p>
+  <p class="tnote"><b>Note, and it is a deliberate distinction in the Thai.</b> This route posts to an
+  endpoint whose reply cannot be read back, so the page cannot know the rows were stored. The wording
+  is therefore <span lang="th" style="font-family:var(--thai)">ส่งคำตอบแล้ว</span>,
+  &ldquo;the answers have been sent&rdquo;, and never
+  <span lang="th" style="font-family:var(--thai)">บันทึกเรียบร้อย</span>, &ldquo;saved&rdquo;. A
+  source comment states the reason. English keeps the distinction: sent, not saved.</p>
+</div>
+<div class="pair">
+  <p class="role">status, when neither route got the data off the device</p>
+  <p class="th" lang="th">ยังส่งขึ้นระบบไม่ได้ คำตอบถูกเก็บไว้ในเครื่องนี้แล้ว กรุณาอย่าเพิ่งปิดหน้านี้</p>
+  <p class="en">The answers cannot be sent to the system yet. They have been stored on this device.
+  Please do not close this page just yet.</p>
+</div>
+
+<h3 class="groupname">The failed-upload recovery panel</h3>
+<div class="pair">
+  <p class="role">panel heading, shown only on that failure</p>
+  <p class="th" lang="th">สำเนาคำตอบสำรอง</p>
+  <p class="en">Backup copy of the answers</p>
+</div>
+<div class="pair">
+  <p class="role">instruction</p>
+  <p class="th" lang="th">กรุณาส่งข้อความด้านล่างนี้ให้ผู้วิจัย ก่อนปิดหน้านี้</p>
+  <p class="en">Please send the text below to the researcher before closing this page.</p>
+  <p class="tnote"><b>Note.</b> &ldquo;ก่อนปิดหน้านี้&rdquo; (before closing this page) is bold on
+  screen. The panel below it holds the whole session as text in a read-only box; the browser also asks
+  for confirmation if the page is closed while it is showing.</p>
+</div>
+<div class="pair">
+  <p class="role">text box, screen-reader label</p>
+  <p class="th" lang="th">สำเนาคำตอบ</p>
+  <p class="en">Copy of the answers</p>
+</div>
+<div class="pair">
+  <p class="role">button, then its two possible replies</p>
+  <p class="th" lang="th">คัดลอก → คัดลอกแล้ว | กรุณาเลือกข้อความแล้วคัดลอกเอง</p>
+  <p class="en">Copy → Copied | Please select the text and copy it yourself &mdash; the second reply
+  appears when the browser refuses clipboard access.</p>
+</div>
+</section>
+
+<section class="screen" id="errors">
+<h2>Error and edge-case messages</h2>
+<p class="gloss">These are participant-visible, but only on a failure. The first can appear in the
+middle of any phase; the rest appear at the start, while the researcher still holds the device, and
+all of them end by telling the participant to hand the device back.</p>
+
+<div class="pair">
+  <p class="role">hint line, when a clip will not decode</p>
+  <p class="th" lang="th">คลิปนี้เปิดไม่ได้ กำลังข้ามไปคลิปถัดไป</p>
+  <p class="en">This clip cannot be opened. Skipping to the next clip.</p>
+  <p class="tnote"><b>Note.</b> A clip that fails is never rated: the rating buttons stay locked, the
+  screen is skipped after 900&nbsp;ms, and a row is written recording which element and which channel
+  failed. Three failures in a row end the session through the done screen.</p>
+</div>
+<div class="pair">
+  <p class="role">start-up error</p>
+  <p class="th" lang="th">ชุดคลิปไม่ครบ กรุณาส่งอุปกรณ์คืนผู้วิจัย</p>
+  <p class="en">The clip set is incomplete. Please hand the device back to the researcher.</p>
+</div>
+<div class="pair">
+  <p class="role">start-up error</p>
+  <p class="th" lang="th">อุปกรณ์นี้เปิดคลิปไม่ได้ กรุณาส่งอุปกรณ์คืนผู้วิจัย</p>
+  <p class="en">This device cannot play the clips. Please hand the device back to the researcher.</p>
+</div>
+<div class="pair">
+  <p class="role">start-up error</p>
+  <p class="th" lang="th">เกิดข้อผิดพลาดในการเริ่ม กรุณาส่งอุปกรณ์คืนผู้วิจัย</p>
+  <p class="en">An error occurred while starting. Please hand the device back to the researcher.</p>
+</div>
+<div class="pair">
+  <p class="role">participant-code error</p>
+  <p class="th" lang="th">หมายเลขนี้ถูกใช้แล้ว และหาหมายเลขว่างไม่ได้ กรุณาส่งอุปกรณ์คืนผู้วิจัย</p>
+  <p class="en">This number has already been used, and no free number could be found. Please hand the
+  device back to the researcher.</p>
+</div>
+<div class="pair">
+  <p class="role">participant-code error</p>
+  <p class="th" lang="th">หมายเลขถูกใช้พร้อมกันจากอีกเครื่อง กรุณาส่งอุปกรณ์คืนผู้วิจัย</p>
+  <p class="en">The number was claimed at the same time from another device. Please hand the device
+  back to the researcher.</p>
+</div>
+<div class="pair">
+  <p class="role">code-autofill failure, test-run form</p>
+  <p class="th" lang="th">อ่านรายการหมายเลขที่ใช้ไปแล้วไม่ได้ กรุณากรอกหมายเลขรอบทดสอบเอง (90–99)</p>
+  <p class="en">The list of numbers already used cannot be read. Please enter a test-run number
+  yourself (90&ndash;99).</p>
+</div>
+<div class="pair">
+  <p class="role">code-autofill failure, participant form</p>
+  <p class="th" lang="th">อ่านรายการหมายเลขที่ใช้ไปแล้วไม่ได้ กรุณากรอกหมายเลขที่ผู้วิจัยกำหนดให้ผู้เข้าร่วมคนนี้</p>
+  <p class="en">The list of numbers already used cannot be read. Please enter the number the
+  researcher assigned to this participant.</p>
+</div>
+<div class="pair">
+  <p class="role">warning before starting, when the online store cannot be reached</p>
+  <p class="th" lang="th">ระบบบันทึกออนไลน์ไม่ทำงาน คำตอบจะถูกเก็บไว้ในเครื่องนี้เท่านั้น กรุณาแจ้งผู้วิจัยก่อนเริ่ม ถ้าต้องการเริ่มจริง ๆ ให้กด “ถัดไป” อีกครั้ง</p>
+  <p class="en">The online recording system is not working. The answers will be kept on this device
+  only. Please tell the researcher before starting. If you really do want to start, press
+  &ldquo;Next&rdquo; again.</p>
+  <p class="tnote"><b>Note.</b> In the source this is two adjacent string literals concatenated; it
+  reaches the screen as the single paragraph shown here. It is raised while the researcher still holds
+  the device, and only in the configuration where the online store is the only route off the
+  device.</p>
+</div>
+</section>
+
+<section class="screen" id="offpath">
+<h2>Strings that exist but no participant sees</h2>
+<p class="gloss">Included for completeness, because a reviewer reading the published source will meet
+them there. This panel is on the welcome screen but stays hidden unless the page is opened with a
+query parameter, which happens only when the researcher reads the collected data back out.</p>
+
+<div class="pair">
+  <p class="role">panel heading, researcher only</p>
+  <p class="th" lang="th">ส่งออกข้อมูล (สำหรับผู้วิจัย)</p>
+  <p class="en">Export the data (for the researcher)</p>
+</div>
+<div class="pair">
+  <p class="role">note</p>
+  <p class="th" lang="th">อ่านข้อมูลทั้งหมดจากระบบแล้วแสดงเป็น JSON คัดลอกไปเก็บไว้</p>
+  <p class="en">Read all the data out of the system and show it as JSON. Copy it and keep it.</p>
+</div>
+<div class="pair">
+  <p class="role">buttons and their replies</p>
+  <p class="th" lang="th">อ่านข้อมูล · คัดลอก · กำลังอ่าน… · คัดลอกแล้ว</p>
+  <p class="en">Read the data · Copy · Reading&hellip; · Copied</p>
+</div>
+<div class="pair">
+  <p class="role">export messages</p>
+  <p class="th" lang="th">อ่านแล้ว ${n} แถว · อ่านไม่ได้: ระบบบันทึกออนไลน์ไม่ทำงาน · ยังไม่มีข้อมูล กด “อ่านข้อมูล” ก่อน</p>
+  <p class="en">Read <span class="ph">N</span> rows · Cannot read: the online recording system is not
+  working · There is no data yet; press &ldquo;Read the data&rdquo; first</p>
+</div>
+</section>
+
+<section id="omitted">
+<h2>What this page leaves out, and why</h2>
+<ul class="prose">
+  <li><strong>The stimulus videos.</strong> None is embedded. This document is about what
+  participants were asked, not what they were shown, and embedding clips would also make it large and
+  no longer offline-portable.</li>
+  <li><strong>The delivery endpoint.</strong> The address the instrument posts rows to is in the
+  source but is not reproduced here, and neither is any credential; nothing on this page can reach any
+  server.</li>
+  <li><strong>The blind code to condition mapping.</strong> Which of
+  <span class="code">sk_001</span>&hellip;<span class="code">sk_060</span> is which method is held in a
+  file that stays on the researcher&rsquo;s machine, so that the published instrument cannot leak it.
+  The five rated condition names are given in the facts panel; the per-clip mapping is not.</li>
+  <li><strong>The instrument&rsquo;s own visual design.</strong> The screens are dark, single-column
+  and phone-shaped, with one video stage and large tap targets. This page reproduces their text, not
+  their layout, and does not attempt to be a screenshot.</li>
+  <li><strong>The consent material delivered in Thai Sign Language.</strong> The screen states that
+  the researcher has already explained the five points by signing. That signed explanation is not text
+  and is not on this page; the written consent sheet and the researcher&rsquo;s script are separate
+  documents.</li>
+</ul>
+</section>
+
+<footer>
+<h2>Provenance of this page</h2>
+<p>Every Thai string above was extracted from the two source files whose hashes are given at the top
+of this page, and each one was then checked to occur in the published build. Placeholders such as
+<span class="code">${n}</span> are the source code&rsquo;s own and were left in place; where the
+source builds a sentence out of several fragments, the note under the row says so. The counts, caps
+and recorded field names in the facts panel were read from the same source files and from the
+stimulus kit&rsquo;s provenance record, and the three byte-identical control pairs were re-derived
+independently by hashing the delivered video files.</p>
+<p>This page is documentation for peer review. It is not part of the instrument, no participant ever
+saw it, and it records nothing.</p>
+</footer>
+
+</div>
+</body>
+</html>
