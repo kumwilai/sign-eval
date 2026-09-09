@@ -151,8 +151,10 @@ sends nothing: it has no scripts, no forms and no network requests. The live ins
 </div>
 
 <p class="prose">The instrument is entirely in Thai because the participants are Thai Sign Language
-users; the researcher also delivers the consent material in Thai Sign Language in person, so some
-substance reaches the participant by signing rather than by screen. Everything below is text the
+users. Since 2026-09-09 the instrument is delivered as a personal link emailed to each participant
+(<span class="code">?p=NN</span>, which pre-fills their number), and they complete it alone: no
+researcher is present, no one observes the session, and there is no interpreter, so every word of
+substance has to reach the participant through the screen. Everything below is text the
 screen itself shows. Strings that the page assembles at run time are given exactly as they appear in
 the source, with the code&rsquo;s own placeholders left in place, and an English rendering with the
 placeholders filled in for a complete session.</p>
@@ -166,12 +168,12 @@ placeholders filled in for a complete session.</p>
   <span class="code">MANIFEST.txt</span>, and the built page on disk hashes to the manifest&rsquo;s
   published page hash, so these strings are the ones in the published build.</p>
   <dl>
-    <dt>snapshot taken</dt><dd>2026-09-08T20:10:19+07:00</dd>
-    <dt>he_markup.html (sha256)</dt><dd>b8db9213a30009ba6cb56099a84571ca815bf369859b4b960b53a124984053c7</dd>
-    <dt>he_logic.js (sha256)</dt><dd>e4e884750093acac32f07d6b8ae8d8ef1c8a1d6f2dae1329816fc6f2cb413072</dd>
+    <dt>snapshot taken</dt><dd>2026-09-09T08:54:14+07:00</dd>
+    <dt>he_markup.html (sha256)</dt><dd>794621cd6e0822b1096bdcd2d42704135d71648c81cbb5b501fdf356c5d820cb</dd>
+    <dt>he_logic.js (sha256)</dt><dd>9b4a8d1dfb7f8214ac390be27156df45f66ebc711cabcb18fd24d1acd7359145</dd>
     <dt>he_style.css (sha256)</dt><dd>57588951c543706c89b186df5ec299aa1f27ea930306e68c69944b373f64a4cf</dd>
-    <dt>build id recorded in every session document</dt><dd>86a225b3e49b2b9ec61ed72f8cdfb878533b2756351d20d788e74e5ac22f46af</dd>
-    <dt>published page (sha256)</dt><dd>25c1fac7acfd22f7db5a9e50bcd45aded5866b49a4535f7378009df29c5e44d3</dd>
+    <dt>build id recorded in every session document</dt><dd>2aa4520aaef1f656733d0be70e67410098968271faf258d90a1a2d954b87abba</dd>
+    <dt>published page (sha256)</dt><dd>415d26eda0b721ba5ed76f569c62ffbcfe65a629edf56586a2c5faa84ec86177</dd>
   </dl>
 </div>
 </header>
@@ -358,8 +360,9 @@ know who is speaking. English has nothing corresponding, and they are not transl
 
 <section class="screen" id="s1">
 <h2><span class="n">1</span>Welcome, participant code, test-run toggle</h2>
-<p class="gloss">The first screen. The researcher holds the device here, enters the participant number
-they have assigned, and hands the device over. Tapping the button moves to consent; nothing is stored
+<p class="gloss">The first screen, on the participant&rsquo;s own device. The emailed link carries
+their assigned number as <span class="code">?p=NN</span> and the field is already filled in when the
+page opens; it can still be typed by hand. Tapping the button moves to consent; nothing is stored
 and no participant number is claimed until after the background questions, so someone who declines
 leaves no trace.</p>
 
@@ -462,7 +465,9 @@ leaves no trace.</p>
   starting, so that different people&rsquo;s answers do not overlap.</p>
   <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ทับกัน</span> is
   literally &ldquo;overlap&rdquo; or &ldquo;land on top of each other&rdquo;; in this context it means
-  one participant&rsquo;s rows overwriting another&rsquo;s.</p>
+  one participant&rsquo;s rows overwriting another&rsquo;s. Under the emailed-link delivery the number
+  is assigned in the invitation email and arrives in the link, so the field is normally already filled
+  and the participant only has to check it.</p>
 </div>
 <div class="pair">
   <p class="role">placeholder inside the number field</p>
@@ -535,10 +540,10 @@ leaves no trace.</p>
 
 <section class="screen" id="s2">
 <h2><span class="n">2</span>Consent: the five points</h2>
-<p class="gloss">Reached from the welcome screen. One screen, one tap, five points. The screen itself
-states that the researcher has already gone through these points in Thai Sign Language; the signed
-explanation, not this screen, is where the substance is delivered. Declining returns to the welcome
-screen, and no participant number is claimed.</p>
+<p class="gloss">Reached from the welcome screen. One screen, one tap, five points. This screen is
+the whole of the consent process: the participant is alone, nobody explains anything to them, and the
+note under the five points says so and gives an email address for questions. Declining returns to the
+welcome screen, and no participant number is claimed.</p>
 
 <div class="pair">
   <p class="role">eyebrow</p>
@@ -558,9 +563,9 @@ screen, and no participant number is claimed.</p>
 </div>
 <div class="pair">
   <p class="role">point 2 of 5</p>
-  <p class="th" lang="th">ประมาณ 20–25 นาที หยุดได้ทุกเมื่อด้วยปุ่ม “หยุดการประเมิน” หรือบอกผู้วิจัย</p>
+  <p class="th" lang="th">ประมาณ 20–25 นาที หยุดได้ทุกเมื่อด้วยปุ่ม “หยุดการประเมิน” หรือปิดหน้านี้</p>
   <p class="en">About 20&ndash;25 minutes. You can stop at any time with the &ldquo;Stop the
-  evaluation&rdquo; button, or by telling the researcher.</p>
+  evaluation&rdquo; button, or by closing this page.</p>
   <p class="tnote"><b>Note.</b> The quoted button label is the withdrawal control documented on
   screen&nbsp;8. The consent screen states the expected duration, 20&ndash;25 minutes; it does not
   mention the 40-minute cap at which the session ends itself. A participant who reaches the cap sees
@@ -592,9 +597,17 @@ screen, and no participant number is claimed.</p>
 </div>
 <div class="pair">
   <p class="role">note under the five points</p>
-  <p class="th" lang="th">ผู้วิจัยได้อธิบายเรื่องเหล่านี้เป็นภาษามือไทยแล้ว ถามได้ทุกข้อ</p>
-  <p class="en">The researcher has already explained these matters in Thai Sign Language. You may ask
-  about any of them.</p>
+  <p class="th" lang="th">ไม่มีผู้วิจัยอยู่ด้วย ไม่มีใครดูท่านขณะทำ · มีคำถาม ส่งอีเมลถึง wuttipong.kum@kmutt.ac.th · ปิดหน้านี้เมื่อใดก็ได้ ไม่มีอะไรเกิดขึ้น</p>
+  <p class="en">No researcher is with you, and nobody is watching you while you do this &middot; If
+  you have a question, email wuttipong.kum@kmutt.ac.th &middot; You can close this page at any
+  time and nothing happens.</p>
+  <p class="tnote"><b>Note &mdash; corrected 2026-09-09.</b> Until this build the line read
+  <span lang="th" style="font-family:var(--thai)">ผู้วิจัยได้อธิบายเรื่องเหล่านี้เป็นภาษามือไทยแล้ว ถามได้ทุกข้อ</span>,
+  &ldquo;the researcher has already explained these matters in Thai Sign Language; you may ask about
+  any of them&rdquo;. That was written for a supervised session. Delivery changed to a personal
+  emailed link with nobody present, which made the sentence false, so it was replaced by the three
+  statements above: no one is present, here is where to send a question, and you may leave at any
+  time.</p>
 </div>
 <div class="pair">
   <p class="role">note, second line</p>
@@ -1290,8 +1303,8 @@ delivery route worked, a recovery panel appears with the answers as text.</p>
   <p class="th" lang="th">คลิปหลายคลิปเปิดไม่ได้ จึงจบการประเมินก่อนกำหนด ท่านให้คะแนนไปแล้ว ${n} คลิป</p>
   <p class="en">Several clips could not be opened, so the evaluation has ended earlier than planned.
   You have rated <span class="ph">N</span> clips &mdash; ending with
-  <span lang="th" style="font-family:var(--thai)">กรุณาแจ้งผู้วิจัย</span>, &ldquo;please tell the
-  researcher&rdquo;.</p>
+  <span lang="th" style="font-family:var(--thai)">กรุณาแจ้งผู้วิจัยทางอีเมล wuttipong.kum@kmutt.ac.th</span>,
+  &ldquo;please tell the researcher by email wuttipong.kum@kmutt.ac.th&rdquo;.</p>
 </div>
 <div class="pair">
   <p class="role">summary &mdash; after withdrawal</p>
@@ -1364,8 +1377,9 @@ delivery route worked, a recovery panel appears with the answers as text.</p>
 </div>
 <div class="pair">
   <p class="role">instruction</p>
-  <p class="th" lang="th">กรุณาส่งข้อความด้านล่างนี้ให้ผู้วิจัย ก่อนปิดหน้านี้</p>
-  <p class="en">Please send the text below to the researcher before closing this page.</p>
+  <p class="th" lang="th">กรุณาส่งข้อความด้านล่างนี้ทางอีเมลถึง wuttipong.kum@kmutt.ac.th ก่อนปิดหน้านี้</p>
+  <p class="en">Please email the text below to wuttipong.kum@kmutt.ac.th before closing this
+  page.</p>
   <p class="tnote"><b>Note.</b> &ldquo;ก่อนปิดหน้านี้&rdquo; (before closing this page) is bold on
   screen. The panel below it holds the whole session as text in a read-only box; the browser also asks
   for confirmation if the page is closed while it is showing.</p>
@@ -1386,8 +1400,10 @@ delivery route worked, a recovery panel appears with the answers as text.</p>
 <section class="screen" id="errors">
 <h2>Error and edge-case messages</h2>
 <p class="gloss">These are participant-visible, but only on a failure. The first can appear in the
-middle of any phase; the rest appear at the start, while the researcher still holds the device, and
-all of them end by telling the participant to hand the device back.</p>
+middle of any phase; the rest appear at the start, before any clip has been rated, and all of them
+end by asking the participant to email the researcher. Until 2026-09-09 they ended by asking the
+participant to hand the device back, which the emailed-link delivery made impossible: the device is
+the participant&rsquo;s own and there is nobody to hand it to.</p>
 
 <div class="pair">
   <p class="role">hint line, when a clip will not decode</p>
@@ -1399,30 +1415,30 @@ all of them end by telling the participant to hand the device back.</p>
 </div>
 <div class="pair">
   <p class="role">start-up error</p>
-  <p class="th" lang="th">ชุดคลิปไม่ครบ กรุณาส่งอุปกรณ์คืนผู้วิจัย</p>
-  <p class="en">The clip set is incomplete. Please hand the device back to the researcher.</p>
+  <p class="th" lang="th">ชุดคลิปไม่ครบ กรุณาอีเมลถึง wuttipong.kum@kmutt.ac.th</p>
+  <p class="en">The clip set is incomplete. Please email wuttipong.kum@kmutt.ac.th.</p>
 </div>
 <div class="pair">
   <p class="role">start-up error</p>
-  <p class="th" lang="th">อุปกรณ์นี้เปิดคลิปไม่ได้ กรุณาส่งอุปกรณ์คืนผู้วิจัย</p>
-  <p class="en">This device cannot play the clips. Please hand the device back to the researcher.</p>
+  <p class="th" lang="th">อุปกรณ์นี้เปิดคลิปไม่ได้ กรุณาอีเมลถึง wuttipong.kum@kmutt.ac.th</p>
+  <p class="en">This device cannot play the clips. Please email wuttipong.kum@kmutt.ac.th.</p>
 </div>
 <div class="pair">
   <p class="role">start-up error</p>
-  <p class="th" lang="th">เกิดข้อผิดพลาดในการเริ่ม กรุณาส่งอุปกรณ์คืนผู้วิจัย</p>
-  <p class="en">An error occurred while starting. Please hand the device back to the researcher.</p>
+  <p class="th" lang="th">เกิดข้อผิดพลาดในการเริ่ม กรุณาอีเมลถึง wuttipong.kum@kmutt.ac.th</p>
+  <p class="en">An error occurred while starting. Please email wuttipong.kum@kmutt.ac.th.</p>
 </div>
 <div class="pair">
   <p class="role">participant-code error</p>
-  <p class="th" lang="th">หมายเลขนี้ถูกใช้แล้ว และหาหมายเลขว่างไม่ได้ กรุณาส่งอุปกรณ์คืนผู้วิจัย</p>
-  <p class="en">This number has already been used, and no free number could be found. Please hand the
-  device back to the researcher.</p>
+  <p class="th" lang="th">หมายเลขนี้ถูกใช้แล้ว และหาหมายเลขว่างไม่ได้ กรุณาอีเมลถึง wuttipong.kum@kmutt.ac.th</p>
+  <p class="en">This number has already been used, and no free number could be found. Please email
+  wuttipong.kum@kmutt.ac.th.</p>
 </div>
 <div class="pair">
   <p class="role">participant-code error</p>
-  <p class="th" lang="th">หมายเลขถูกใช้พร้อมกันจากอีกเครื่อง กรุณาส่งอุปกรณ์คืนผู้วิจัย</p>
-  <p class="en">The number was claimed at the same time from another device. Please hand the device
-  back to the researcher.</p>
+  <p class="th" lang="th">หมายเลขถูกใช้พร้อมกันจากอีกเครื่อง กรุณาอีเมลถึง wuttipong.kum@kmutt.ac.th</p>
+  <p class="en">The number was claimed at the same time from another device. Please email
+  wuttipong.kum@kmutt.ac.th.</p>
 </div>
 <div class="pair">
   <p class="role">code-autofill failure, test-run form</p>
@@ -1443,9 +1459,11 @@ all of them end by telling the participant to hand the device back.</p>
   only. Please tell the researcher before starting. If you really do want to start, press
   &ldquo;Next&rdquo; again.</p>
   <p class="tnote"><b>Note.</b> In the source this is two adjacent string literals concatenated; it
-  reaches the screen as the single paragraph shown here. It is raised while the researcher still holds
-  the device, and only in the configuration where the online store is the only route off the
-  device.</p>
+  reaches the screen as the single paragraph shown here. It is the one message that still says
+  &ldquo;tell the researcher&rdquo; with no channel, and it was left as it is because it cannot reach
+  a participant in the published build: the branch that raises it runs only when the page has no
+  delivery endpoint (<span class="code">POST_URL</span> empty), and this build ships with the endpoint
+  configured.</p>
 </div>
 </section>
 
@@ -1494,10 +1512,12 @@ query parameter, which happens only when the researcher reads the collected data
   <li><strong>The instrument&rsquo;s own visual design.</strong> The screens are dark, single-column
   and phone-shaped, with one video stage and large tap targets. This page reproduces their text, not
   their layout, and does not attempt to be a screenshot.</li>
-  <li><strong>The consent material delivered in Thai Sign Language.</strong> The screen states that
-  the researcher has already explained the five points by signing. That signed explanation is not text
-  and is not on this page; the written consent sheet and the researcher&rsquo;s script are separate
-  documents.</li>
+  <li><strong>The invitation email.</strong> Each participant receives a personal link,
+  <span class="code">https://kumwilai.github.io/sign-eval/?p=NN</span>, by email. That email, the
+  written consent sheet and the researcher&rsquo;s script are separate documents and are not
+  reproduced here. Nothing is explained to the participant in person or in Thai Sign Language: from
+  2026-09-09 the five points on the consent screen are the whole of the explanation, which is why the
+  note under them names an email address for questions.</li>
 </ul>
 </section>
 
