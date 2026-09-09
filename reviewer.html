@@ -168,12 +168,12 @@ placeholders filled in for a complete session.</p>
   <span class="code">MANIFEST.txt</span>, and the built page on disk hashes to the manifest&rsquo;s
   published page hash, so these strings are the ones in the published build.</p>
   <dl>
-    <dt>snapshot taken</dt><dd>2026-09-09T08:54:14+07:00</dd>
-    <dt>he_markup.html (sha256)</dt><dd>794621cd6e0822b1096bdcd2d42704135d71648c81cbb5b501fdf356c5d820cb</dd>
+    <dt>snapshot taken</dt><dd>2026-09-09T09:54:00+07:00</dd>
+    <dt>he_markup.html (sha256)</dt><dd>c203d9dcf476d48a5a05e7ded9f040e4c00a81a6965a8971e8f2dbe4439ba89c</dd>
     <dt>he_logic.js (sha256)</dt><dd>9b4a8d1dfb7f8214ac390be27156df45f66ebc711cabcb18fd24d1acd7359145</dd>
-    <dt>he_style.css (sha256)</dt><dd>57588951c543706c89b186df5ec299aa1f27ea930306e68c69944b373f64a4cf</dd>
-    <dt>build id recorded in every session document</dt><dd>2aa4520aaef1f656733d0be70e67410098968271faf258d90a1a2d954b87abba</dd>
-    <dt>published page (sha256)</dt><dd>415d26eda0b721ba5ed76f569c62ffbcfe65a629edf56586a2c5faa84ec86177</dd>
+    <dt>he_style.css (sha256)</dt><dd>a0dc1a93e6e04c7a69eb8d5a5e6d9fca024fdbe0f8f0b95296cb705df605059c</dd>
+    <dt>build id recorded in every session document</dt><dd>4d7d86744dd930740b198fc2b5171982fd8b8d3f5cef666a3b9d7980a69dfc5b</dd>
+    <dt>published page (sha256)</dt><dd>288e881b0a604dc4527d21b02953a7ce39422879d5aa36ace48b09aafe199cb4</dd>
   </dl>
 </div>
 </header>
@@ -184,7 +184,7 @@ placeholders filled in for a complete session.</p>
   <li><span class="n"></span><a href="#facts">Facts a reviewer needs to read the screens</a></li>
   <li><span class="n"></span><a href="#howto">How to read the two columns</a></li>
   <li><span class="n">1</span><a href="#s1">Welcome, participant code, test-run toggle</a></li>
-  <li><span class="n">2</span><a href="#s2">Consent: the five points</a></li>
+  <li><span class="n">2</span><a href="#s2">Consent: the five points and the full information sheet</a></li>
   <li><span class="n">3</span><a href="#s3">Seven language-background items</a></li>
   <li><span class="n">4</span><a href="#s4">Part 1: a single-clip trial</a></li>
   <li><span class="n">5</span><a href="#s5">The break</a></li>
@@ -539,11 +539,13 @@ leaves no trace.</p>
 </section>
 
 <section class="screen" id="s2">
-<h2><span class="n">2</span>Consent: the five points</h2>
-<p class="gloss">Reached from the welcome screen. One screen, one tap, five points. This screen is
-the whole of the consent process: the participant is alone, nobody explains anything to them, and the
-note under the five points says so and gives an email address for questions. Declining returns to the
-welcome screen, and no participant number is claimed.</p>
+<h2><span class="n">2</span>Consent: the five points and the full information sheet</h2>
+<p class="gloss">Reached from the welcome screen. One screen, one tap. This screen is the whole of
+the consent process: the participant is alone, nobody explains anything to them, and the note under
+the five points says so and gives an email address for questions. Since 2026-09-09 the screen carries
+the whole participant information sheet as well as the summary. The five points come first, then a
+disclosure that opens sections&nbsp;1 to&nbsp;10 of the sheet on the same screen, then the two
+buttons. Declining returns to the welcome screen, and no participant number is claimed.</p>
 
 <div class="pair">
   <p class="role">eyebrow</p>
@@ -567,9 +569,11 @@ welcome screen, and no participant number is claimed.</p>
   <p class="en">About 20&ndash;25 minutes. You can stop at any time with the &ldquo;Stop the
   evaluation&rdquo; button, or by closing this page.</p>
   <p class="tnote"><b>Note.</b> The quoted button label is the withdrawal control documented on
-  screen&nbsp;8. The consent screen states the expected duration, 20&ndash;25 minutes; it does not
-  mention the 40-minute cap at which the session ends itself. A participant who reaches the cap sees
-  the done screen say so, and that message is documented on screen&nbsp;9.</p>
+  screen&nbsp;8. This summary line states the expected duration, 20&ndash;25 minutes, and does not
+  mention the 40-minute cap; the full information sheet below it does, in section&nbsp;2, together
+  with the measured durations for this build and the statement that reaching the cap ends the session
+  as complete. A participant who reaches the cap also sees the done screen say so, and that message
+  is documented on screen&nbsp;9.</p>
 </div>
 <div class="pair">
   <p class="role">point 3 of 5</p>
@@ -587,8 +591,13 @@ welcome screen, and no participant number is claimed.</p>
   <span lang="th" style="font-family:var(--thai)">ภายใน 30 วัน</span>, &ldquo;within 30 days&rdquo;,
   which reads as a deadline. The researcher&rsquo;s spoken script says it can be done until the
   dataset closes, which will be &ldquo;no sooner than 30 days from today&rdquo; &mdash; a floor, not a
-  deadline. The two are compatible in that the screen promises the shorter window, but they are not
-  the same statement, and a reviewer checking consent against the script will see the difference.</p>
+  deadline. The two are compatible in that this summary line promises the shorter window, but they
+  are not the same statement, and a reviewer checking consent against the script will see the
+  difference. <b>Partly resolved 2026-09-09.</b> Section&nbsp;4 of the full information sheet, which
+  is now on this same screen, states the floor version: deletion is possible until the dataset closes
+  for analysis, which will be no sooner than 30 days after the participant takes part. The summary
+  line was left exactly as it was, so the shorter statement is still the first one a participant
+  reads.</p>
 </div>
 <div class="pair">
   <p class="role">point 5 of 5</p>
@@ -614,6 +623,122 @@ welcome screen, and no participant number is claimed.</p>
   <p class="th" lang="th">กด “ยินยอมเข้าร่วม” = ท่านเข้าใจและเห็นด้วยกับ 5 ข้อนี้</p>
   <p class="en">Pressing &ldquo;I consent to take part&rdquo; = you understand and agree with these 5
   points.</p>
+</div>
+<div class="pair wide">
+  <p class="role">disclosure that opens the full information sheet &mdash; label</p>
+  <p class="th" lang="th">อ่านเอกสารข้อมูลสำหรับผู้เข้าร่วมฉบับเต็ม ข้อ 1–10 · แตะเพื่อเปิด</p>
+  <p class="en">Read the full participant information sheet, sections 1&ndash;10 &middot; tap to open</p>
+  <p class="tnote"><b>New 2026-09-09 &mdash; the full sheet is now on the screen.</b> Until this build
+  the consent screen showed only the five-point summary above, and the full participant information
+  sheet existed as a document that no participant ever saw. Delivery is unsupervised, so there was no
+  briefing and no paper copy to carry it, and the summary was in practice the entire disclosure. The
+  whole sheet, sections&nbsp;1 to&nbsp;10, is now on this same screen, in a native
+  <span class="code">&lt;details&gt;</span> disclosure placed below the five points and above the two
+  buttons. It is closed when the screen opens, needs no JavaScript, and adds no dependency. The five
+  points and the two buttons are byte-for-byte unchanged. The Thai text of all ten sections is
+  reproduced in <span class="code">consent_th.md</span> under ส่วน ข ข.3 and in
+  <span class="code">inapp_consent_spec.md</span> under &ldquo;S1 full sheet&rdquo;, and those two
+  copies are word for word what the screen shows.</p>
+</div>
+<div class="pair wide">
+  <p class="role">disclosure contents &mdash; what the ten sections say</p>
+  <p class="th" lang="th">ฉบับวันที่ 9 กันยายน 2569 · สำหรับการทำแบบประเมินด้วยตนเองผ่านลิงก์ที่ส่งทางอีเมล</p>
+  <p class="en">Version of 9 September 2026 &middot; for completing the evaluation on your own,
+  through a link sent by email</p>
+  <p class="tnote">Section by section, in English: <b>1. Who is doing the research and why.</b>
+  Researchers at King Mongkut&rsquo;s University of Technology Thonburi; the project&rsquo;s only
+  contact channel is the email address <span class="code">wuttipong.kum@kmutt.ac.th</span>; the aim
+  is to learn how natural the generated skeleton motion looks to people who sign every day, and the
+  results go into a journal article and will be reported whichever way they come out.
+  <b>2. What you will do and how long it takes.</b> You do it alone, through the emailed link, with
+  no researcher present, no appointment and nobody watching; any device you already have is fine,
+  phone, tablet or computer, and a larger screen is offered as a comfort suggestion and explicitly
+  not as a condition of taking part. The durations are the measured ones for this build: about 15
+  active minutes, 17 by the clock, for a participant who uses every replay and answers as soon as
+  each clip ends; about 9 active minutes for one who replays only the paired screens; more if you
+  deliberate. Then the structure, one practice screen, 50 single-clip screens with a break after 25,
+  10 forced-choice screens and 10 fidelity screens; the replay budget, two extra plays on single
+  clips and three on pairs; and the 40-minute active-time cap, including that reaching it ends the
+  session as complete and keeps every answer already given.
+  <b>3. Things to know before deciding.</b> Participants are 18 or older and use Thai Sign Language;
+  the clips are German Sign Language and comprehension is not being tested; there are no right
+  answers; judge motion rather than drawing; the clips come from several generation methods
+  including human recordings and you are not told which is which; and some forced-choice pairs will
+  look identical, which is expected.
+  <b>4. Stopping and withdrawing.</b> Declining or closing the page writes nothing at all; during the
+  session you stop either with the &ldquo;Stop the evaluation&rdquo; button or by closing the page,
+  and answers already given are kept unless you ask for them to be deleted. Deletion is by email
+  quoting your participant number and is possible until the dataset closes, which will be no sooner
+  than 30 days after you take part. The section also warns that the number in your link can be
+  reassigned if it is already in use, so the number that counts is the large one on the final screen.
+  <b>5. What is and is not recorded.</b> Recorded: the time you pressed consent and the build
+  identifier, the seven background answers, every rating and choice with response times, replay
+  counts and answer changes, start, end, break and reason for ending, and technical facts about your
+  device &mdash; the browser identification string, the window size and the reduced-motion setting
+  &mdash; with an explicit statement that none of this will ever be used to exclude your answers from
+  the analysis. Not recorded: no video, photographs or audio and no camera or microphone request; no
+  name, identity number, address, email or telephone number in the research data and no free-text
+  field anywhere; no account and no login; no signature; and no IP address in the data table.
+  The section then states plainly the one linkage that does exist: the researcher emailed the link
+  and therefore knows which email address goes with which number, that linkage lives only in the
+  researcher&rsquo;s mailbox, is not in the data table and is not published, and the participant may
+  ask for that email to be deleted.
+  <b>6. Storage, access and publication.</b> Answers are sent over HTTPS to a Google Apps Script that
+  writes them into a Google Sheet the researcher owns, so the data passes through and rests on
+  Google&rsquo;s servers, which may be outside Thailand; if the network fails, answers are held in
+  the browser&rsquo;s storage on your own device and the final screen shows them as text for you to
+  email in, and if you do not send it they never reach the researcher. Afterwards the data is copied
+  to a password-protected computer at the university and removed from the Sheet, kept at least five
+  years after publication, then deleted. An anonymous response table is published with the article;
+  background answers are reported only as group counts, with no small cells and no per-person table.
+  <b>7. Risks and benefits.</b> Low risk, eye fatigue or boredom over roughly 15 to 20 minutes, a
+  break in the middle, no flashing and no sound, no direct benefit, and an explicit statement that
+  the results do not show any system is ready for real use and are not an evaluation of Thai Sign
+  Language.
+  <b>8. Compensation.</b> There is none: no money, no gift, no reimbursement of data or travel costs,
+  and the absence of payment affects none of the rights in the sheet.
+  <b>9. Contact and complaints.</b> One email address for questions, for a fuller explanation and for
+  deletion requests; and, for complaints, the same address, with the plain statement that this
+  project has no human-research ethics committee overseeing it and no separate complaints body, that
+  the person who receives a complaint is the researcher, and that the participant should know this
+  before deciding. All project contact is written Thai by email; there is no telephone number and no
+  sign-language video-call channel.
+  <b>10. How you give consent.</b> You read this yourself on screen; no researcher or interpreter
+  explains it in Thai Sign Language and there is no signed-language video on the page; if you are
+  unsure, do not press consent yet, email first, the link still works later. No signature is asked
+  for, because a signature would be the only document in the project carrying your name and, next to
+  a date, would link back to your number and your answers. Then the steps: read, take as long as you
+  like because this screen is not timed, press one button, answer seven background questions, and
+  the practice clip begins.</p>
+</div>
+<div class="pair wide">
+  <p class="role">how the sheet on screen differs from the document it came from</p>
+  <p class="th" lang="th">โครงการนี้ไม่มีคณะกรรมการจริยธรรมการวิจัยในมนุษย์กำกับดูแล และไม่มีหน่วยงานรับเรื่องร้องเรียนแยกต่างหาก</p>
+  <p class="en">This project has no human-research ethics committee overseeing it, and there is no
+  separate body that receives complaints.</p>
+  <p class="tnote flagged"><b>Read this before comparing the screen with
+  <span class="code">consent_th.md</span> ส่วน ก.</b> The source document was written for a
+  supervised session and several of its statements are not true of unsupervised delivery. They were
+  rewritten rather than copied, and the rewrites are the substantive ones a reviewer should check.
+  The source carried an unfilled ethics-certificate number; there is no certificate, so the field is
+  gone rather than shown empty. The source routed complaints to a university human-research ethics
+  committee; there is no committee, so the screen says so in the sentence quoted above and names the
+  researcher&rsquo;s email as the only channel. The source&rsquo;s section 10 was headed &ldquo;after
+  hearing the explanation in Thai Sign Language&rdquo;; that does not happen, so the heading and the
+  section were rewritten around reading the document on screen. The source left compensation as an
+  unfilled amount; there is none, so the section now says so plainly instead of being deleted. The
+  source asked for an investigator&rsquo;s name, position and department; no personal name was
+  invented, the sentences were rewritten to need only the university and the email address. The
+  source said the researcher supplies the device and stays in the room, and that a paper copy and a
+  paper card are handed over; none of that happens, so the screen describes your own device, nobody
+  present and a screenshot as the way to keep the sheet and your number. The source described the
+  upload as going to a database attached to the hosting platform; it goes to a Google Apps Script and
+  a Google Sheet, and the screen now says that. The source said one replay per screen and about 30 to
+  35 minutes; the shipped caps are two replays on single clips and three on pairs, and the durations
+  on screen are the ones measured on this build. Every
+  <span class="code">[[FILL: &hellip;]]</span> in the source was resolved or written around: none
+  reaches the page, and the built page contains no occurrence of the string
+  <span class="code">FILL</span>.</p>
 </div>
 <div class="pair">
   <p class="role">primary button</p>
@@ -1515,9 +1640,13 @@ query parameter, which happens only when the researcher reads the collected data
   <li><strong>The invitation email.</strong> Each participant receives a personal link,
   <span class="code">https://kumwilai.github.io/sign-eval/?p=NN</span>, by email. That email, the
   written consent sheet and the researcher&rsquo;s script are separate documents and are not
-  reproduced here. Nothing is explained to the participant in person or in Thai Sign Language: from
-  2026-09-09 the five points on the consent screen are the whole of the explanation, which is why the
-  note under them names an email address for questions.</li>
+  reproduced here. Nothing is explained to the participant in person or in Thai Sign Language, which
+  is why the note under the five points names an email address for questions. The written consent
+  sheet is no longer among the documents a participant does not see: since 2026-09-09 the whole of it,
+  sections&nbsp;1 to&nbsp;10, is on the consent screen itself, and screen&nbsp;2 above reproduces its
+  label, its contents section by section, and every place where its wording had to be changed to stay
+  true of unsupervised delivery. The researcher&rsquo;s script and the invitation email are still
+  separate documents and are still not reproduced here.</li>
 </ul>
 </section>
 
