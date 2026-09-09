@@ -158,7 +158,19 @@ substance has to reach the participant through the screen. The link is now <em>b
 convenience: the number in it is the session&rsquo;s identity, the field on screen is read-only, and
 a page opened without a link refuses to start rather than offering the next free number to whoever
 arrived. A link opened a second time also refuses, on a screen of its own, instead of moving the
-person quietly onto somebody else&rsquo;s number. Everything below is text the
+person quietly onto somebody else&rsquo;s number.</p>
+
+<p class="prose">Since later the same day the link is also <em>resumable</em>, and that changes what a
+second visit means. A dry run on three participants&rsquo; own phones had all three first attempts
+abandoned &mdash; at trials 6, 4 and 25 &mdash; and two of the three people came back later to
+finish. Against the refusal described above, every one of those returns would have been turned away
+and every abandonment would have cost a participant. So a second visit <em>on the device the session
+was started on</em> now continues that same session, under the same session identifier, from the clip
+it stopped at: one participant number is one session, no clip is rated twice, and the refusal is left
+to do what it was written for, which is a second person arriving on somebody else&rsquo;s number.
+What the device keeps is one browser-storage entry per participant number, holding the answers given
+so far, the consent timestamp, the background answers and the exact position in the session; the time
+away is recorded and is not counted against the session&rsquo;s 40 active minutes. Everything below is text the
 screen itself shows. Strings that the page assembles at run time are given exactly as they appear in
 the source, with the code&rsquo;s own placeholders left in place, and an English rendering with the
 placeholders filled in for a complete session.</p>
@@ -172,12 +184,12 @@ placeholders filled in for a complete session.</p>
   <span class="code">MANIFEST.txt</span>, and the built page on disk hashes to the manifest&rsquo;s
   published page hash, so these strings are the ones in the published build.</p>
   <dl>
-    <dt>snapshot taken</dt><dd>2026-09-09T13:40:00+07:00</dd>
-    <dt>he_markup.html (sha256)</dt><dd>a07f2d4e808c1b5eda53b4ebd3d1374fb0ddb26d8209a43a3e378bc8bd183c0a</dd>
-    <dt>he_logic.js (sha256)</dt><dd>0946bac1a0a8660ad20d46d2f9bd8ed8faae30d799132f50b9b0d9954854873e</dd>
+    <dt>snapshot taken</dt><dd>2026-09-09T14:35:00+07:00</dd>
+    <dt>he_markup.html (sha256)</dt><dd>c419df275d5f782dc676db4dda4891e562d9244d44d0c78492a65cda144b69aa</dd>
+    <dt>he_logic.js (sha256)</dt><dd>06ef17ac5402d914eba1d1b090863efb069f7b48d1fa8fb624d37a732612f4a2</dd>
     <dt>he_style.css (sha256)</dt><dd>ca2882a8c346211b7b440328b8b510f8596051594146343d0c6a813524383149</dd>
-    <dt>build id recorded in every session document</dt><dd>c642e488623830a30b4be910e1b008f8f814606f7f1f4a08f7a139aed5f380f4</dd>
-    <dt>published page (sha256)</dt><dd>51ad57e54bffbd577809bc90a58c2e943ea0283478a06c8e8bb1b8dd69da6ec0</dd>
+    <dt>build id recorded in every session document</dt><dd>e967f778d003f78efdb37a5f3fcc8d6215716d211162e7cb54a4332fb4c590cf</dd>
+    <dt>published page (sha256)</dt><dd>fc26c556d6ea74f5c9ddc554cbf90a66edbf2c97ed4f90aa29dcbc163d600701</dd>
   </dl>
   <p class="small muted" style="margin:.6rem 0 0">This build differs from the previous one
   (<span class="code">47ba8415</span>) only in the phone layout. Not one participant-facing
@@ -584,6 +596,83 @@ and the test-run checkbox remain available to the researcher for dry runs, behin
   <p class="en">Answers are kept anonymously and used for research only.</p>
 </div>
 
+<h3 class="groupname">When this device already holds an unfinished session (2026-09-09)</h3>
+<p class="prose">Reached instead of the welcome card, and reached at once: no consent screen, no
+background questions, and in particular no wait on the network, because all of that was answered in
+the first sitting and a page that sits there saying nothing is what invites the reload in the first
+place. The one button continues the session from the clip it stopped at. That clip is played again
+from the beginning and the partial view of it before the interruption is not counted &mdash; which is
+the same rule the page already applies when a phone call or a locked screen interrupts a clip inside
+one page load.</p>
+<div class="pair">
+  <p class="role">heading</p>
+  <p class="th" lang="th">ทำต่อจากเดิมได้เลย</p>
+  <p class="en">You can carry on from where you were.</p>
+</div>
+<div class="pair">
+  <p class="role">lead line, filled in by the page</p>
+  <p class="th" lang="th">ท่านทำไปแล้ว ${n} จาก ${trials.length} คลิป</p>
+  <p class="en">You have already done <span class="ph">N</span> of <span class="ph">50</span>
+  clips.</p>
+  <p class="tnote"><b>Note.</b> The count is the number of clips actually <em>rated</em>, read from
+  the stored session and not recomputed; a clip that would not play was skipped and is not among
+  them.</p>
+</div>
+<div class="pair">
+  <p class="role">what continuing does</p>
+  <p class="th" lang="th">คำตอบที่ท่านให้ไว้แล้วยังอยู่ครบ ระบบจะพาท่านไปต่อจากคลิปที่ค้างไว้ คลิปนั้นจะเริ่มเล่นใหม่ตั้งแต่ต้น และเวลาที่ท่านหยุดไปไม่ถูกนับรวมในเวลาทำแบบประเมิน</p>
+  <p class="en">The answers you have already given are all still there. The system will take you on
+  from the clip you left off at. That clip will play again from the start, and the time you were away
+  is not counted in the time for the evaluation.</p>
+</div>
+<div class="pair">
+  <p class="role">and if they are not ready to carry on now</p>
+  <p class="th" lang="th">ถ้าท่านยังไม่พร้อม ปิดหน้านี้ได้เลย คำตอบที่ให้ไว้แล้วจะยังถูกเก็บไว้ และเปิดลิงก์เดิมด้วยเครื่องนี้อีกครั้งเมื่อใดก็ได้ · มีคำถาม อีเมลถึง wuttipong.kum@kmutt.ac.th</p>
+  <p class="en">If you are not ready, you can close this page. The answers you have already given
+  will still be kept, and you can open the same link on this device again whenever you like &middot;
+  Questions: email wuttipong.kum@kmutt.ac.th</p>
+</div>
+<div class="pair">
+  <p class="role">button</p>
+  <p class="th" lang="th">ทำต่อ</p>
+  <p class="en">Carry on &mdash; the same word the break screen&rsquo;s button uses.</p>
+</div>
+
+<h3 class="groupname">When the session on this device cannot be continued (2026-09-09)</h3>
+<p class="prose">Two cases, one screen. The stored session was collected with a <em>different build</em>
+of this page, so the design, the wording and the stimulus tokens may all have moved and the two
+sittings cannot honestly be one session; or what is stored disagrees with the link that was opened,
+which is what edited browser storage or a shared device profile would look like. Neither is merged.
+The reason is written into the screen by the page, the participant number is shown so it can be
+quoted, and the email channel is named. A refusal is filed as a session record, under the retired
+session&rsquo;s own identifier, so the researcher sees it rather than having to infer it.</p>
+<div class="pair">
+  <p class="role">eyebrow and heading</p>
+  <p class="th" lang="th">ทำต่อในเครื่องนี้ไม่ได้ · ทำต่อไม่ได้ ต้องให้ผู้วิจัยช่วยครับ/ค่ะ</p>
+  <p class="en">This device cannot carry on &middot; It cannot carry on; the researcher will have to
+  help.</p>
+</div>
+<div class="pair">
+  <p class="role">reason, when the page was rebuilt after the session started</p>
+  <p class="th" lang="th">หน้าแบบประเมินนี้มีการปรับปรุงหลังจากที่ท่านเริ่มทำไว้ คำตอบชุดที่ท่านทำค้างไว้กับหน้าเวอร์ชันใหม่นี้จึงรวมกันไม่ได้ ระบบจึงไม่ทำต่อให้เองครับ/ค่ะ คำตอบที่ท่านให้ไว้แล้วยังอยู่ ไม่ได้หายไป</p>
+  <p class="en">This evaluation page has been updated since you started. The set of answers you left
+  unfinished and this new version of the page cannot be combined, so the system does not carry on by
+  itself. The answers you already gave are still there; they have not been lost.</p>
+</div>
+<div class="pair">
+  <p class="role">reason, when what is stored disagrees with the link</p>
+  <p class="th" lang="th">ข้อมูลที่บันทึกไว้ในเครื่องนี้ไม่ตรงกับลิงก์ที่ท่านเปิด ระบบจึงไม่ทำต่อให้เอง เพื่อไม่ให้คำตอบของท่านไปปนกับของผู้เข้าร่วมท่านอื่นครับ/ค่ะ</p>
+  <p class="en">What is stored on this device does not match the link you opened, so the system does
+  not carry on by itself, to keep your answers from getting mixed in with another
+  participant&rsquo;s.</p>
+</div>
+<div class="pair">
+  <p class="role">label above the number, then what to do</p>
+  <p class="th" lang="th">หมายเลขของท่าน · กรุณาอีเมลถึง wuttipong.kum@kmutt.ac.th แล้วแจ้งหมายเลขข้างบนนี้ ผู้วิจัยจะจัดลิงก์ใหม่ให้ท่าน ขออภัยในความไม่สะดวกครับ/ค่ะ</p>
+  <p class="en">Your number &middot; Please email wuttipong.kum@kmutt.ac.th and tell us the number
+  above. The researcher will arrange a new link for you. We are sorry for the inconvenience.</p>
+</div>
+
 <h3 class="groupname">When the link has already been used (2026-09-09)</h3>
 <p class="prose">A whole screen, reached instead of the first clip when the participant number in the
 link has already begun a session. It replaces a silent renumbering: the earlier build moved the
@@ -595,6 +684,12 @@ trigger it, since the number is recorded as used in the first second of the firs
 session now stops here. Nothing is rated, no claim is written, and one session record is filed under
 the same number with a different session nonce, so the researcher can see the revisit next to the
 first attempt and decide what to do about it.</p>
+<p class="prose">Since the resume change later the same day, this screen is only reached from a
+device that holds no session of its own &mdash; a second phone, a second browser, a cleared browser
+&mdash; because on the device the session was started on the same link simply carries on. That is why
+its first line no longer leads with the email address: the thing that most often fixes it is opening
+the link on the device they began on, and the email channel is the second step, for the person who
+really is on that device or who has lost the link.</p>
 <div class="pair">
   <p class="role">eyebrow above the heading</p>
   <p class="th" lang="th">ลิงก์นี้ใช้ไปแล้ว</p>
@@ -606,13 +701,18 @@ first attempt and decide what to do about it.</p>
   <p class="en">This link has already started the evaluation</p>
 </div>
 <div class="pair">
-  <p class="role">lead paragraph</p>
-  <p class="th" lang="th">มีการเริ่มการประเมินด้วยหมายเลขนี้ไปก่อนหน้านี้แล้ว เพื่อไม่ให้คำตอบของท่านไปปนกับของผู้เข้าร่วมท่านอื่น ระบบจึงไม่เริ่มรอบใหม่ให้เองครับ/ค่ะ</p>
-  <p class="en">An evaluation has already been started under this number. So that your answers do not
-  get mixed in with another participant&rsquo;s, the system does not start a fresh round by itself.</p>
+  <p class="role">lead paragraph, written in by the page</p>
+  <p class="th" lang="th">ถ้าท่านเริ่มทำไว้แล้วกับอีกเครื่องหนึ่ง กรุณาเปิดลิงก์เดิมในอีเมลด้วยเครื่องเดิมที่ท่านเริ่มทำไว้ แล้วระบบจะพาท่านทำต่อจากคลิปที่ค้างไว้เอง คำตอบที่ให้ไว้แล้วยังอยู่ครบ ระบบไม่เริ่มรอบใหม่ให้ในเครื่องนี้ เพื่อไม่ให้คำตอบของท่านไปปนกับของผู้เข้าร่วมท่านอื่นครับ/ค่ะ</p>
+  <p class="en">If you started on another device, please open the same link from your email on the
+  device you started on, and the system will take you on from the clip you left off at by itself. The
+  answers you have already given are all still there. It does not start a fresh round on this device,
+  to keep your answers from getting mixed in with another participant&rsquo;s.</p>
   <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ปน</span> is
   &ldquo;to be mixed in with&rdquo; or &ldquo;adulterated&rdquo;, the everyday word for two things
-  running together where they should not. The sentence deliberately does not blame the participant.</p>
+  running together where they should not. The sentence deliberately does not blame the participant.
+  It is one string in the source, <span class="code">PRIOR_MSG</span> in
+  <span class="code">he_logic.js</span>, written into the screen by the page, so the wording a
+  participant reads and the wording a test reads cannot drift apart.</p>
 </div>
 <div class="pair">
   <p class="role">label above the number</p>
@@ -1596,6 +1696,56 @@ delivery route worked, a recovery panel appears with the answers as text.</p>
   what identifies the session; no name is recorded anywhere.</p>
 </div>
 
+<h3 class="groupname">When the link is opened again after finishing (2026-09-09)</h3>
+<p class="prose">The same screen, reached from the stored session rather than from a session just
+completed. Nothing is rated again and no number is claimed again; what is left is to be honest about
+whether the answers ever reached the sheet, and to finish the job if they did not. If the delivery was
+already confirmed, this visit touches the network not at all.</p>
+<div class="pair">
+  <p class="role">heading</p>
+  <p class="th" lang="th">ทำแบบประเมินนี้เสร็จไปแล้ว ขอบคุณมากครับ/ค่ะ</p>
+  <p class="en">You have already finished this evaluation. Thank you very much.</p>
+</div>
+<div class="pair">
+  <p class="role">summary, built from the stored counts</p>
+  <p class="th" lang="th">ท่านทำแบบประเมินด้วยลิงก์นี้เสร็จเรียบร้อยแล้ว ให้คะแนนไปแล้ว ${n} คลิป เลือกเปรียบเทียบ ${nc} คู่ และเปรียบเทียบกับต้นแบบ ${nf} คู่ ไม่ต้องทำอีกครับ/ค่ะ</p>
+  <p class="en">You have completed the evaluation with this link. You rated <span class="ph">50</span>
+  clips, made <span class="ph">10</span> comparison choices and compared <span class="ph">10</span>
+  pairs against the reference. There is no need to do it again.</p>
+  <p class="tnote"><b>Note.</b> The two comparison fragments are dropped when their count is zero, as
+  on the ordinary done screen, so a session that was cut short reads as a shorter sentence rather than
+  one with zeros in it.</p>
+</div>
+<div class="pair">
+  <p class="role">status, while the delivery is being checked</p>
+  <p class="th" lang="th">กำลังตรวจกับระบบว่าคำตอบของท่านครบทุกข้อหรือยัง…</p>
+  <p class="en">Checking with the system whether all of your answers are there&hellip;</p>
+</div>
+<div class="pair">
+  <p class="role">status, when the check itself could not be made</p>
+  <p class="th" lang="th">ตอนนี้ตรวจกับระบบไม่ได้ คำตอบทั้งหมดยังเก็บไว้ในเครื่องนี้ ท่านปิดหน้านี้ได้เลย แล้วเปิดลิงก์เดิมด้วยเครื่องนี้อีกครั้งเมื่ออินเทอร์เน็ตใช้งานได้ ระบบจะตรวจและส่งส่วนที่เหลือขึ้นให้เอง</p>
+  <p class="en">The system cannot be checked just now. All your answers are still kept on this
+  device. You can close this page, then open the same link on this device again when the internet is
+  working, and the system will check and send whatever is left by itself.</p>
+</div>
+<div class="pair">
+  <p class="role">status, when the check was made and something is still missing</p>
+  <p class="th" lang="th">ยังส่งขึ้นระบบไม่ได้ครบทุกข้อ คำตอบทั้งหมดยังเก็บไว้ในเครื่องนี้ ท่านปิดหน้านี้ได้เลย แล้วเปิดลิงก์เดิมด้วยเครื่องนี้อีกครั้งเมื่ออินเทอร์เน็ตใช้งานได้ ถ้าลองแล้วยังไม่สำเร็จ กรุณาอีเมลถึง wuttipong.kum@kmutt.ac.th</p>
+  <p class="en">Not all of the answers have reached the system yet. All of them are still kept on this
+  device. You can close this page, then open the same link on this device again when the internet is
+  working. If that has been tried and it still does not work, please email
+  wuttipong.kum@kmutt.ac.th.</p>
+</div>
+<div class="pair">
+  <p class="role">status, when the artifact store is the only route and there is no endpoint</p>
+  <p class="th" lang="th">คำตอบทั้งหมดเก็บไว้ในเครื่องนี้แล้ว กรุณาแจ้งผู้วิจัยทางอีเมล wuttipong.kum@kmutt.ac.th</p>
+  <p class="en">All of the answers are kept on this device. Please tell the researcher by email
+  wuttipong.kum@kmutt.ac.th.</p>
+  <p class="tnote"><b>Note.</b> Not reachable in the published build, which ships with the endpoint
+  configured; it is the case where the page is opened as a plain file with no delivery route at
+  all.</p>
+</div>
+
 <h3 class="groupname">Delivery status</h3>
 <div class="pair">
   <p class="role">status, while saving</p>
@@ -1603,9 +1753,24 @@ delivery route worked, a recovery panel appears with the answers as text.</p>
   <p class="en">Saving&hellip;</p>
 </div>
 <div class="pair">
-  <p class="role">status, when the online store confirmed the write</p>
+  <p class="role">status, while the delivery is being checked (2026-09-09)</p>
+  <p class="th" lang="th">กำลังตรวจกับระบบว่าคำตอบของท่านครบทุกข้อหรือยัง…</p>
+  <p class="en">Checking with the system whether all of your answers are there&hellip;</p>
+</div>
+<div class="pair">
+  <p class="role">status, when the delivery is confirmed</p>
   <p class="th" lang="th">บันทึกเรียบร้อย ${n} รายการ ขอบคุณครับ/ค่ะ ท่านปิดหน้านี้ได้</p>
   <p class="en">Saved, <span class="ph">70</span> records. Thank you. You can close this page.</p>
+  <p class="tnote"><b>Note, and it changed on 2026-09-09.</b> Until then this sentence was reachable
+  only through the artifact database, because a cross-origin post to the endpoint gets an opaque
+  response and the page could not learn whether the sheet had stored anything. The endpoint now
+  answers a counts-only question &mdash; which order numbers do you hold for this participant and
+  this session &mdash; with no answer fields in the reply, so it can be asked from a page published
+  in a public repository without exposing a rating. The page asks it once at the finish, re-posts
+  anything the sheet says it does not have, asks once more, and only then says
+  <span lang="th" style="font-family:var(--thai)">บันทึกเรียบร้อย</span>. Until the researcher
+  redeploys the endpoint that route does not exist, and an answer without those counts is treated
+  exactly like a check that could not be made, which is the next line.</p>
 </div>
 <div class="pair">
   <p class="role">status, when the rows were sent but receipt cannot be confirmed</p>
@@ -1620,10 +1785,20 @@ delivery route worked, a recovery panel appears with the answers as text.</p>
   source comment states the reason. English keeps the distinction: sent, not saved.</p>
 </div>
 <div class="pair">
-  <p class="role">status, when neither route got the data off the device</p>
-  <p class="th" lang="th">ยังส่งขึ้นระบบไม่ได้ คำตอบถูกเก็บไว้ในเครื่องนี้แล้ว กรุณาอย่าเพิ่งปิดหน้านี้</p>
-  <p class="en">The answers cannot be sent to the system yet. They have been stored on this device.
-  Please do not close this page just yet.</p>
+  <p class="role">status, when something is missing and the page knows it</p>
+  <p class="th" lang="th">ยังส่งขึ้นระบบไม่ได้ คำตอบทั้งหมดถูกเก็บไว้ในเครื่องนี้แล้ว ท่านปิดหน้านี้ได้เลย แล้วเมื่ออินเทอร์เน็ตใช้งานได้แล้ว ค่อยเปิดลิงก์เดิมในอีเมลด้วยเครื่องนี้อีกครั้ง ระบบจะส่งส่วนที่เหลือขึ้นให้เอง ท่านไม่ต้องทำใหม่ ถ้าเบราว์เซอร์ถามยืนยันตอนปิดหน้า ให้กดออกได้เลย</p>
+  <p class="en">The answers have not reached the system yet. All of them are stored on this device.
+  You can close this page, and then, once the internet is working, open the same link from your email
+  on this device again; the system will send the rest by itself and you will not have to do it again.
+  If the browser asks you to confirm when you close the page, you can confirm.</p>
+  <p class="tnote"><b>Note, and it changed on 2026-09-09.</b> This used to read
+  <span lang="th" style="font-family:var(--thai)">กรุณาอย่าเพิ่งปิดหน้านี้</span>, &ldquo;please do
+  not close this page just yet&rdquo;, and then offered the copy-paste panel below, because closing
+  the tab was the moment the answers were lost for good. It no longer is: the answers are on the
+  device under this participant number, and re-opening the same link on the same device finishes the
+  delivery by itself. So the first thing the participant is told is that, and the last sentence
+  addresses the browser&rsquo;s own leave-the-page prompt, which is still armed as one more chance to
+  notice the panel. The panel itself stays, below this, as the last resort.</p>
 </div>
 
 <h3 class="groupname">The failed-upload recovery panel</h3>
@@ -1634,12 +1809,16 @@ delivery route worked, a recovery panel appears with the answers as text.</p>
 </div>
 <div class="pair">
   <p class="role">instruction</p>
-  <p class="th" lang="th">กรุณาส่งข้อความด้านล่างนี้ทางอีเมลถึง wuttipong.kum@kmutt.ac.th ก่อนปิดหน้านี้</p>
-  <p class="en">Please email the text below to wuttipong.kum@kmutt.ac.th before closing this
-  page.</p>
-  <p class="tnote"><b>Note.</b> &ldquo;ก่อนปิดหน้านี้&rdquo; (before closing this page) is bold on
-  screen. The panel below it holds the whole session as text in a read-only box; the browser also asks
-  for confirmation if the page is closed while it is showing.</p>
+  <p class="th" lang="th">ใช้เมื่อจำเป็นเท่านั้น ถ้าท่านเปิดลิงก์เดิมด้วยเครื่องนี้อีกครั้งแล้วระบบยังส่งขึ้นไม่สำเร็จ หรือผู้วิจัยขอให้ทำวิธีนี้ กรุณาคัดลอกข้อความด้านล่างนี้ส่งอีเมลถึง wuttipong.kum@kmutt.ac.th</p>
+  <p class="en">Only if it is needed. If you have opened the same link on this device again and the
+  system still cannot send them, or if the researcher asks you to do it this way, please copy the text
+  below and email it to wuttipong.kum@kmutt.ac.th.</p>
+  <p class="tnote"><b>Note, and it changed on 2026-09-09.</b> It used to say &ldquo;please email the
+  text below&hellip; <b>before closing this page</b>&rdquo;, which was the right instruction while
+  closing the tab lost the answers. With the session resumable, asking a participant to copy 27 kB of
+  JSON out of a phone is the last thing to try and not the first, so the panel is named as such and
+  the instruction above it names what to try first. The box below still holds the whole session as
+  selectable text in a read-only field.</p>
 </div>
 <div class="pair">
   <p class="role">text box, screen-reader label</p>
