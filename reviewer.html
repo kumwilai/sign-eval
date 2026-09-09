@@ -152,9 +152,13 @@ sends nothing: it has no scripts, no forms and no network requests. The live ins
 
 <p class="prose">The instrument is entirely in Thai because the participants are Thai Sign Language
 users. Since 2026-09-09 the instrument is delivered as a personal link emailed to each participant
-(<span class="code">?p=NN</span>, which pre-fills their number), and they complete it alone: no
+(<span class="code">?p=NN</span>) and they complete it alone: no
 researcher is present, no one observes the session, and there is no interpreter, so every word of
-substance has to reach the participant through the screen. Everything below is text the
+substance has to reach the participant through the screen. The link is now <em>binding</em>, not a
+convenience: the number in it is the session&rsquo;s identity, the field on screen is read-only, and
+a page opened without a link refuses to start rather than offering the next free number to whoever
+arrived. A link opened a second time also refuses, on a screen of its own, instead of moving the
+person quietly onto somebody else&rsquo;s number. Everything below is text the
 screen itself shows. Strings that the page assembles at run time are given exactly as they appear in
 the source, with the code&rsquo;s own placeholders left in place, and an English rendering with the
 placeholders filled in for a complete session.</p>
@@ -168,12 +172,12 @@ placeholders filled in for a complete session.</p>
   <span class="code">MANIFEST.txt</span>, and the built page on disk hashes to the manifest&rsquo;s
   published page hash, so these strings are the ones in the published build.</p>
   <dl>
-    <dt>snapshot taken</dt><dd>2026-09-09T09:54:00+07:00</dd>
-    <dt>he_markup.html (sha256)</dt><dd>c203d9dcf476d48a5a05e7ded9f040e4c00a81a6965a8971e8f2dbe4439ba89c</dd>
-    <dt>he_logic.js (sha256)</dt><dd>9b4a8d1dfb7f8214ac390be27156df45f66ebc711cabcb18fd24d1acd7359145</dd>
+    <dt>snapshot taken</dt><dd>2026-09-09T10:19:00+07:00</dd>
+    <dt>he_markup.html (sha256)</dt><dd>c6000366319ed887c70742da8f3107a46d93a91c2ac383be8b9e027e9e8b4853</dd>
+    <dt>he_logic.js (sha256)</dt><dd>e5cd6c3c5fd2637ba57dc097b394d015c9f3a1baeff7ab5ad082bee697483d5e</dd>
     <dt>he_style.css (sha256)</dt><dd>a0dc1a93e6e04c7a69eb8d5a5e6d9fca024fdbe0f8f0b95296cb705df605059c</dd>
-    <dt>build id recorded in every session document</dt><dd>4d7d86744dd930740b198fc2b5171982fd8b8d3f5cef666a3b9d7980a69dfc5b</dd>
-    <dt>published page (sha256)</dt><dd>288e881b0a604dc4527d21b02953a7ce39422879d5aa36ace48b09aafe199cb4</dd>
+    <dt>build id recorded in every session document</dt><dd>5f70f2d1012009d4864891286e8d51e4f666360957d81a5ca28149aa36a6e946</dd>
+    <dt>published page (sha256)</dt><dd>d9aecb5f38dd000f58ef478f0a83c8bdb99eb64a24fca8a7c9b7cc7ec8a61ab9</dd>
   </dl>
 </div>
 </header>
@@ -361,10 +365,16 @@ know who is speaking. English has nothing corresponding, and they are not transl
 <section class="screen" id="s1">
 <h2><span class="n">1</span>Welcome, participant code, test-run toggle</h2>
 <p class="gloss">The first screen, on the participant&rsquo;s own device. The emailed link carries
-their assigned number as <span class="code">?p=NN</span> and the field is already filled in when the
-page opens; it can still be typed by hand. Tapping the button moves to consent; nothing is stored
-and no participant number is claimed until after the background questions, so someone who declines
-leaves no trace.</p>
+their assigned number as <span class="code">?p=NN</span>; the field is filled from the link and is
+<em>read-only</em>, and the test-run checkbox is set from the same number and locked with it, so
+there is nothing on this screen an unsupervised participant can get wrong and nothing that can move
+the session onto another number. Opened without a link the page fills nothing, disables the button
+and asks the participant to use the link from their email. Tapping the button moves to consent;
+nothing is stored and no participant number is claimed until after the background questions, so
+someone who declines leaves no trace. The free-text field, the automatic next-free-number suggestion
+and the test-run checkbox remain available to the researcher for dry runs, behind the operator flag
+<span class="code">?op=1</span> in the same way the data-export card is behind
+<span class="code">?export=1</span>; neither is on a participant&rsquo;s path.</p>
 
 <div class="pair">
   <p class="role">eyebrow above the heading</p>
@@ -466,13 +476,38 @@ leaves no trace.</p>
   <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ทับกัน</span> is
   literally &ldquo;overlap&rdquo; or &ldquo;land on top of each other&rdquo;; in this context it means
   one participant&rsquo;s rows overwriting another&rsquo;s. Under the emailed-link delivery the number
-  is assigned in the invitation email and arrives in the link, so the field is normally already filled
-  and the participant only has to check it.</p>
+  is assigned in the invitation email and arrives in the link, so the field is filled and locked and
+  the participant only reads it. The label still speaks of entering a number because the same card
+  serves the researcher&rsquo;s dry runs under <span class="code">?op=1</span>, where the field is
+  typed as before.</p>
 </div>
 <div class="pair">
   <p class="role">placeholder inside the number field</p>
   <p class="th" lang="th">เช่น 7</p>
   <p class="en">for example 7</p>
+</div>
+<div class="pair">
+  <p class="role">hint under the field, when the page was opened from a personal link (2026-09-09)</p>
+  <p class="th" lang="th">หมายเลขประจำตัวของท่านคือ P07 มาจากลิงก์ในอีเมล จึงแก้ไขไม่ได้</p>
+  <p class="en">Your personal number is <span class="ph">P07</span>. It comes from the link in the
+  email, so it cannot be changed.</p>
+  <p class="tnote"><b>Note.</b> The number shown is whatever the link carried. For a researcher&rsquo;s
+  dry-run link in the reserved 90&ndash;99 range the line instead reads
+  <span lang="th" style="font-family:var(--thai)">หมายเลขรอบทดสอบ 91 มาจากลิงก์นี้ แก้ไขไม่ได้</span>,
+  &ldquo;test-run number 91 comes from this link; it cannot be changed&rdquo;.</p>
+</div>
+<div class="pair">
+  <p class="role">hint under the field, and the refusal on the button, when there is no link at all
+  (2026-09-09)</p>
+  <p class="th" lang="th">กรุณาเปิดหน้านี้จากลิงก์ส่วนตัวในอีเมลที่ผู้วิจัยส่งให้ท่าน ลิงก์นั้นมีหมายเลขประจำตัวของท่านอยู่ในตัวแล้ว ถ้าหาลิงก์ไม่พบหรือลิงก์ใช้ไม่ได้ กรุณาอีเมลถึง wuttipong.kum@kmutt.ac.th</p>
+  <p class="en">Please open this page from the personal link in the email the researcher sent you.
+  That link already carries your own number. If you cannot find the link, or it does not work, please
+  email wuttipong.kum@kmutt.ac.th.</p>
+  <p class="tnote"><b>Note.</b> This is the state a forwarded email, a bookmark or a mail client that
+  rewrote the link produces. Before 2026-09-09 the page filled in the lowest unused number here and
+  invited the arrival to start, so the first such visitor became P01, the next P02, and so on down the
+  list of numbers already emailed to other people. The button is now disabled and the same sentence is
+  repeated as the error if it is pressed anyway.</p>
 </div>
 <div class="pair">
   <p class="role">hint under the field, while the next free number is being looked up</p>
@@ -535,6 +570,50 @@ leaves no trace.</p>
   <p class="role">footer note, present on every screen</p>
   <p class="th" lang="th">คำตอบเก็บแบบไม่ระบุตัวตน ใช้เพื่องานวิจัยเท่านั้น</p>
   <p class="en">Answers are kept anonymously and used for research only.</p>
+</div>
+
+<h3 class="groupname">When the link has already been used (2026-09-09)</h3>
+<p class="prose">A whole screen, reached instead of the first clip when the participant number in the
+link has already begun a session. It replaces a silent renumbering: the earlier build moved the
+person onto the lowest free number, wrote a one-line notice into the welcome card &mdash; which is
+hidden by that point, so nobody ever saw it &mdash; and ran them through another participant&rsquo;s
+counterbalancing, because the whole trial order is seeded from the number. A reload, a flat battery,
+closing and reopening the tab, a second tap on the emailed link or a second tab were all enough to
+trigger it, since the number is recorded as used in the first second of the first attempt. The
+session now stops here. Nothing is rated, no claim is written, and one session record is filed under
+the same number with a different session nonce, so the researcher can see the revisit next to the
+first attempt and decide what to do about it.</p>
+<div class="pair">
+  <p class="role">eyebrow above the heading</p>
+  <p class="th" lang="th">ลิงก์นี้ใช้ไปแล้ว</p>
+  <p class="en">This link has already been used</p>
+</div>
+<div class="pair">
+  <p class="role">heading</p>
+  <p class="th" lang="th">ลิงก์นี้เริ่มการประเมินไปแล้ว</p>
+  <p class="en">This link has already started the evaluation</p>
+</div>
+<div class="pair">
+  <p class="role">lead paragraph</p>
+  <p class="th" lang="th">มีการเริ่มการประเมินด้วยหมายเลขนี้ไปก่อนหน้านี้แล้ว เพื่อไม่ให้คำตอบของท่านไปปนกับของผู้เข้าร่วมท่านอื่น ระบบจึงไม่เริ่มรอบใหม่ให้เองครับ/ค่ะ</p>
+  <p class="en">An evaluation has already been started under this number. So that your answers do not
+  get mixed in with another participant&rsquo;s, the system does not start a fresh round by itself.</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ปน</span> is
+  &ldquo;to be mixed in with&rdquo; or &ldquo;adulterated&rdquo;, the everyday word for two things
+  running together where they should not. The sentence deliberately does not blame the participant.</p>
+</div>
+<div class="pair">
+  <p class="role">label above the number</p>
+  <p class="th" lang="th">หมายเลขของท่าน</p>
+  <p class="en">Your number</p>
+  <p class="tnote"><b>Note.</b> The number itself is filled in by the page, for example
+  <span class="ph">P07</span>, so the participant can quote it in the email.</p>
+</div>
+<div class="pair">
+  <p class="role">what to do next</p>
+  <p class="th" lang="th">กรุณาอีเมลถึง wuttipong.kum@kmutt.ac.th แล้วแจ้งหมายเลขข้างบนนี้ ผู้วิจัยจะจัดลิงก์ใหม่ให้ท่าน ขออภัยในความไม่สะดวกครับ/ค่ะ</p>
+  <p class="en">Please email wuttipong.kum@kmutt.ac.th and tell us the number above. The researcher
+  will arrange a new link for you. We are sorry for the inconvenience.</p>
 </div>
 </section>
 
@@ -941,6 +1020,15 @@ always shown together, in this order, and are never collapsed into one score.</p
   <p class="role">button over the clip, shown only if the browser refuses to autoplay</p>
   <p class="th" lang="th">แตะเพื่อเล่นคลิป</p>
   <p class="en">Tap to play the clip</p>
+  <p class="tnote"><b>Note (2026-09-09).</b> While this overlay is on screen the four rating scales
+  stay locked. There is a safety net that unlocks the scales after eight seconds in case a clip plays
+  but never reports that it ended; until 2026-09-09 that net also fired behind this overlay, so on a
+  device that refuses autoplay &mdash; an iPhone in Low Power Mode, for instance &mdash; the scales
+  became tappable a few seconds into a clip that had never played, over a black stage. The net now
+  refuses to open while the overlay is up, and the tap that starts the clip restarts the net from
+  that moment. The same is true when the page comes back from the background: if the browser refuses
+  to restart the clip, the overlay is shown and the scales stay locked rather than unlocking over a
+  still frame.</p>
 </div>
 
 <h3 class="groupname">The replay affordance</h3>
@@ -1116,14 +1204,46 @@ the session.</p>
   break falls after the 25th rated trial.</p>
 </div>
 <div class="pair">
-  <p class="role">status line, when the answers so far reached the online store</p>
+  <p class="role">status line, when the answers so far reached the online store (a database receipt)</p>
   <p class="th" lang="th">คำตอบที่ให้ไว้แล้วบันทึกเรียบร้อย</p>
   <p class="en">The answers you have given have been saved.</p>
+  <p class="tnote"><b>Note (2026-09-09).</b> This line is the one place the break screen may say
+  &ldquo;saved&rdquo;, and it is reachable only when there is a database that acknowledged the
+  writes. On the deployed static page there is none, and until 2026-09-09 the screen therefore fell
+  through to the &ldquo;stored on this device&rdquo; line below and told every participant their
+  answers were on their phone at the exact moment 25 rows had in fact been sent to the endpoint. It
+  also contradicted the finish screen, which correctly says &ldquo;sent&rdquo;. The four lines here
+  now name the transport that actually carried the rows, and keep the finish screen&rsquo;s
+  distinction between stored and sent.</p>
 </div>
 <div class="pair">
-  <p class="role">status line, when they are only on this device</p>
+  <p class="role">status line, when the rows were sent to the endpoint and none is waiting (2026-09-09)</p>
+  <p class="th" lang="th">ส่งคำตอบที่ให้ไว้แล้วขึ้นระบบแล้ว</p>
+  <p class="en">The answers you have given have been sent to the system.</p>
+  <p class="tnote"><b>Note.</b> <span lang="th" style="font-family:var(--thai)">ส่ง...แล้ว</span>
+  is &ldquo;sent&rdquo;, not <span lang="th" style="font-family:var(--thai)">บันทึกเรียบร้อย</span>,
+  &ldquo;saved&rdquo;. The upload is a cross-origin POST whose response the page is not allowed to
+  read, so a resolved request means the browser handed the bytes to the network and nothing more.
+  Claiming a receipt the page cannot have would be a false statement to the participant.</p>
+</div>
+<div class="pair">
+  <p class="role">status line, when some rows are sent and some are still waiting (2026-09-09)</p>
+  <p class="th" lang="th">ส่งคำตอบขึ้นระบบไปแล้วบางส่วน ที่เหลือระบบจะส่งให้เองระหว่างทาง</p>
+  <p class="en">Some of the answers have been sent to the system. The rest will be sent
+  automatically as you carry on.</p>
+</div>
+<div class="pair">
+  <p class="role">status line, when nothing has reached the endpoint yet (2026-09-09)</p>
+  <p class="th" lang="th">ยังส่งคำตอบขึ้นระบบไม่ได้ ตอนนี้เก็บไว้ในเครื่องนี้ก่อน และระบบจะลองส่งใหม่ให้เอง</p>
+  <p class="en">The answers cannot be sent to the system yet. For now they are kept on this device,
+  and the system will try again by itself.</p>
+</div>
+<div class="pair">
+  <p class="role">status line, when there is no upload route configured at all</p>
   <p class="th" lang="th">คำตอบที่ให้ไว้แล้วเก็บไว้ในเครื่องนี้แล้ว</p>
   <p class="en">The answers you have given are stored on this device.</p>
+  <p class="tnote"><b>Note.</b> This is now only the build with no database and no endpoint, which is
+  not the configuration any participant is sent.</p>
 </div>
 <div class="pair">
   <p class="role">note</p>
@@ -1566,13 +1686,15 @@ the participant&rsquo;s own and there is nobody to hand it to.</p>
   wuttipong.kum@kmutt.ac.th.</p>
 </div>
 <div class="pair">
-  <p class="role">code-autofill failure, test-run form</p>
+  <p class="role">code-autofill failure, test-run form &mdash; researcher only since 2026-09-09
+  (<span class="code">?op=1</span>); no participant reaches it</p>
   <p class="th" lang="th">อ่านรายการหมายเลขที่ใช้ไปแล้วไม่ได้ กรุณากรอกหมายเลขรอบทดสอบเอง (90–99)</p>
   <p class="en">The list of numbers already used cannot be read. Please enter a test-run number
   yourself (90&ndash;99).</p>
 </div>
 <div class="pair">
-  <p class="role">code-autofill failure, participant form</p>
+  <p class="role">code-autofill failure, participant form &mdash; researcher only since 2026-09-09
+  (<span class="code">?op=1</span>); no participant reaches it</p>
   <p class="th" lang="th">อ่านรายการหมายเลขที่ใช้ไปแล้วไม่ได้ กรุณากรอกหมายเลขที่ผู้วิจัยกำหนดให้ผู้เข้าร่วมคนนี้</p>
   <p class="en">The list of numbers already used cannot be read. Please enter the number the
   researcher assigned to this participant.</p>
