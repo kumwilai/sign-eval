@@ -172,13 +172,25 @@ placeholders filled in for a complete session.</p>
   <span class="code">MANIFEST.txt</span>, and the built page on disk hashes to the manifest&rsquo;s
   published page hash, so these strings are the ones in the published build.</p>
   <dl>
-    <dt>snapshot taken</dt><dd>2026-09-09T12:05:00+07:00</dd>
-    <dt>he_markup.html (sha256)</dt><dd>c6000366319ed887c70742da8f3107a46d93a91c2ac383be8b9e027e9e8b4853</dd>
+    <dt>snapshot taken</dt><dd>2026-09-09T13:40:00+07:00</dd>
+    <dt>he_markup.html (sha256)</dt><dd>a07f2d4e808c1b5eda53b4ebd3d1374fb0ddb26d8209a43a3e378bc8bd183c0a</dd>
     <dt>he_logic.js (sha256)</dt><dd>0946bac1a0a8660ad20d46d2f9bd8ed8faae30d799132f50b9b0d9954854873e</dd>
-    <dt>he_style.css (sha256)</dt><dd>a0dc1a93e6e04c7a69eb8d5a5e6d9fca024fdbe0f8f0b95296cb705df605059c</dd>
-    <dt>build id recorded in every session document</dt><dd>47ba8415fe9a6f9aa2dae1c49387e04c0870374ff7a3ca1e548f0b35957eeb27</dd>
-    <dt>published page (sha256)</dt><dd>8ccd915f4c5a713f20bb2097aa98f13efc1211a1ad67bcee101216298e335028</dd>
+    <dt>he_style.css (sha256)</dt><dd>ca2882a8c346211b7b440328b8b510f8596051594146343d0c6a813524383149</dd>
+    <dt>build id recorded in every session document</dt><dd>c642e488623830a30b4be910e1b008f8f814606f7f1f4a08f7a139aed5f380f4</dd>
+    <dt>published page (sha256)</dt><dd>51ad57e54bffbd577809bc90a58c2e943ea0283478a06c8e8bb1b8dd69da6ec0</dd>
   </dl>
+  <p class="small muted" style="margin:.6rem 0 0">This build differs from the previous one
+  (<span class="code">47ba8415</span>) only in the phone layout. Not one participant-facing
+  string changed, and <span class="code">he_logic.js</span> is byte-identical, so every quoted
+  string below is still the string this build shows. The dry run on
+  <span class="code">47ba8415</span> found that on a 390&nbsp;&times;&nbsp;700&nbsp;px phone the
+  fourth rating scale sat about 187&nbsp;px below the fold on every rated trial: all three phone
+  sessions were abandoned and only the desktop session finished. On a screen 430&nbsp;px wide or
+  narrower the replay control now sits beside the clip rather than under it, the rating cards are
+  tighter, and the clip is sized from the space that is left
+  (<span class="code">clamp(170px, calc(100svh - 496px), 260px)</span>) so that all four scales
+  are on screen at once. The desktop layout is byte-identical to
+  <span class="code">47ba8415</span>.</p>
 </div>
 </header>
 
