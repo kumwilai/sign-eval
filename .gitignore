@@ -1,0 +1,15 @@
+# This repository is PUBLIC and is served at https://kumwilai.github.io/sign-eval/
+# Nothing that identifies a participant, and no credential, may ever be committed here.
+# These patterns are a guard, not a policy: check `git status` before every push.
+
+endpoint.json
+endpoint*.json
+send_list*
+*_send_list*
+prereg_record_*
+*.key
+*.pem
+secrets*
+dump_key*
+DUMP_KEY*
+*.csv
